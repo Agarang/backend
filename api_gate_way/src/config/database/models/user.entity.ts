@@ -48,19 +48,19 @@ export interface UserEntity {
    * @format date
    * 임신일
    */
-  pregnancyDay: string;
+  pregnancyDay: string | null;
 
   /**
    * [a-zA-Zㄱ-힣]{1,}
    * 태명은 1글자 이상
    */
-  fetusNickname: string;
+  fetusNickname: string | null;
 
-  height: number;
+  height: number | null;
 
-  weight: number;
+  weight: number | null;
 
-  prfilePhotoUrl: string;
+  prfilePhotoUrl: string | null;
 
   /**
    * @format date
