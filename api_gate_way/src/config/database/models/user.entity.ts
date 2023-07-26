@@ -60,7 +60,7 @@ export interface UserEntity {
 
   weight: number | null;
 
-  prfilePhotoUrl: string | null;
+  profilePhotoUrl: string | null;
 
   /**
    * @format date
