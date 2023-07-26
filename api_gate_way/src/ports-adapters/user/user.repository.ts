@@ -5,14 +5,15 @@ import { CreateUserDto } from 'src/dtos/user/create-user.dto';
 import typia from 'typia';
 import { TypeToSelect } from 'src/utils/types/type-to-select.type';
 import { UserEntity } from 'src/config/database/models/user.entity';
+import { CreateUserDtoForSelect } from 'src/dtos/common/select/user-select.dto';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
   constructor(private readonly prisma: PrismaService) {}
 
   async insertUser(userInfo: CreateUserDto): Promise<CreateUserDto> {
-    const user = this.prisma.user.create({
-      select: typia.random<TypeToSelect<CreateUserDto>>(),
+    const user = await this.prisma.user.create({
+      select: typia.random<TypeToSelect<CreateUserDtoForSelect>>(),
       data: { ...userInfo, createdAt: new Date().toISOString() },
     });
 
@@ -20,7 +21,7 @@ export class UserRepository implements UserRepositoryOutboundPort {
   }
 
   async findUserForSignUp(email: string): Promise<UserEntity | null> {
-    const user = this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: {
         email,
       },

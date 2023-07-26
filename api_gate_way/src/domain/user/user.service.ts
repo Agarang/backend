@@ -13,13 +13,14 @@ export class UserService {
   ) {}
 
   async register(userInfo: CreateUserDto): Promise<CreateUserDto> {
-    const oldUser = this.userRepository.findUserForSignUp(userInfo.email);
+    const oldUser = await this.userRepository.findUserForSignUp(userInfo.email);
 
     if (oldUser !== null) {
+      console.log(oldUser);
       throw new BadRequestException('중복된 이메일입니다.');
     }
 
-    const user = this.userRepository.insertUser(userInfo);
+    const user = await this.userRepository.insertUser(userInfo);
 
     return user;
   }
