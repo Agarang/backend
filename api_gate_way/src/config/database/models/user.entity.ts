@@ -12,20 +12,17 @@ export interface UserEntity {
   email: string;
 
   /**
-   *
    * 비밀번호는 10자 이상 30자 이하, 영문+숫자+특수문자의 조합
    */
   password: string;
 
   /**
-   * [a-zA-Zㄱ-힣]{3,}
-   * 넥네임은 3글자 이상
+   * @pattern [a-zA-Zㄱ-힣]{3,}
    */
   nickname: string;
 
   /**
-   * [a-zA-Zㄱ-힣]{1,}
-   * 이름은 1글자 이상
+   * @pattern [a-zA-Zㄱ-힣]{1,}
    */
   name: string;
 
@@ -35,26 +32,22 @@ export interface UserEntity {
   birthday: string;
 
   /**
-   * @format (010|011)-(\d{3,4})-(\d{4})
-   * 핸드폰 번호는 (010 또는 011) - (3~4글자) - (4글자)
+   * @pattern (010|011)-(\d{3,4})-(\d{4})
    */
   phoneNumber: string;
 
   /**
    * @format date
-   * 출산 예정일
    */
   babyDue: string;
 
   /**
    * @format date
-   * 임신일
    */
   pregnancyDay: string | null;
 
   /**
-   * [a-zA-Zㄱ-힣]{1,}
-   * 태명은 1글자 이상
+   * @pattern [a-zA-Zㄱ-힣]{1,}
    */
   fetusNickname: string | null;
 
