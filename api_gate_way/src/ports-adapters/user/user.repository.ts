@@ -6,15 +6,19 @@ import typia from 'typia';
 import { TypeToSelect } from 'src/utils/types/type-to-select.type';
 import { UserEntity } from 'src/config/database/models/user.entity';
 import { CreateUserDtoForSelect } from 'src/dtos/common/select/user-select.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
   constructor(private readonly prisma: PrismaService) {}
 
   async insertUser(userInfo: CreateUserDto): Promise<CreateUserDto> {
+    const { password, ...data } = userInfo;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await this.prisma.user.create({
       select: typia.random<TypeToSelect<CreateUserDtoForSelect>>(),
-      data: { ...userInfo, createdAt: new Date().toISOString() },
+      data: { ...data, password: hashedPassword },
     });
 
     return user;
