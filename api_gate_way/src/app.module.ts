@@ -3,9 +3,10 @@ import { UserModule } from './domain/user/user.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './middlewares/filters/http-exception.filter';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UserModule],
+  imports: [UserModule, AuthModule],
   controllers: [],
   providers: [
     {
