@@ -4,14 +4,16 @@ import {
   UserRepositoryOutboundPort,
 } from 'src/ports-adapters/user/user.repository.outbound-port';
 import { compare } from 'bcrypt';
-import { CreateUserDto } from 'src/dtos/user/create-user.dto';
-import { LocalToken } from 'src/dtos/user/local-token.dto';
+import { AccessTokenReturn, LocalToken } from 'src/dtos/auth/local-token.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(USER_REPOSITORY_OUTBOUND_PORT)
     private readonly userRepository: UserRepositoryOutboundPort,
+
+    private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<LocalToken> {
@@ -31,6 +33,12 @@ export class AuthService {
       id: user.id,
       email: user.email,
       nickname: user.nickname,
+    };
+  }
+
+  async issueTokenForLocalSignIn(user: LocalToken): Promise<AccessTokenReturn> {
+    return {
+      accessToken: this.jwtService.sign(user),
     };
   }
 }
