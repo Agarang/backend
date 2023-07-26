@@ -1,3 +1,5 @@
+import { TypeToSelect } from 'src/utils/types/type-to-select.type';
+
 export interface UserEntity {
   /**
    * @type int
@@ -10,7 +12,7 @@ export interface UserEntity {
   email: string;
 
   /**
-   * @pattern ^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,30}$
+   *
    * 비밀번호는 10자 이상 30자 이하, 영문+숫자+특수문자의 조합
    */
   password: string;
@@ -48,19 +50,19 @@ export interface UserEntity {
    * @format date
    * 임신일
    */
-  pregnancyDay: string;
+  pregnancyDay: string | null;
 
   /**
    * [a-zA-Zㄱ-힣]{1,}
    * 태명은 1글자 이상
    */
-  fetusNickname: string;
+  fetusNickname: string | null;
 
-  height: number;
+  height: number | null;
 
-  weight: number;
+  weight: number | null;
 
-  prfilePhotoUrl: string;
+  profilePhotoUrl: string | null;
 
   /**
    * @format date

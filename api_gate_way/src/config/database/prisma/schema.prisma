@@ -13,15 +13,15 @@ model user {
   password        String
   nickname        String    @unique(map: "User_nickname_key")
   name            String
-  birthday        DateTime
+  birthday        String
   phoneNumber     String
-  babyDue         DateTime
-  pregnancyDay    DateTime?
+  babyDue         String
+  pregnancyDay    String?
   fetusNickname   String?
   height          Int?
   weight          Int?
   profilePhotoUrl String?
-  createdAt       DateTime? @default(now())
-  updatedAt       DateTime?
-  deletedAt       DateTime?
+  createdAt       String?
+  updatedAt       String?
+  deletedAt       String?
 }
