@@ -1,3 +1,5 @@
+import { TypeToSelect } from 'src/utils/types/type-to-select.type';
+
 export interface UserEntity {
   /**
    * @type int
@@ -10,7 +12,7 @@ export interface UserEntity {
   email: string;
 
   /**
-   * @pattern ^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,30}$
+   *
    * 비밀번호는 10자 이상 30자 이하, 영문+숫자+특수문자의 조합
    */
   password: string;
