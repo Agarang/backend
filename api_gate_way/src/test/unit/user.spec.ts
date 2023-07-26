@@ -9,7 +9,14 @@ describe('User Spec', () => {
     it('1-1. Sign up', async () => {
       const userInfo = typia.random<CreateUserDto>();
 
-      const userService = new UserService(new MockUserRepository({}));
+      const userService = new UserService(
+        new MockUserRepository({
+          findUserForSignUp: [null],
+          insertUser: [userInfo],
+        }),
+      );
+
+      console.log(userInfo);
 
       const userController = new UserController(userService);
 
