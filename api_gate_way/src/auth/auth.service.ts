@@ -5,6 +5,7 @@ import {
 } from 'src/ports-adapters/user/user.repository.outbound-port';
 import { compare } from 'bcrypt';
 import { CreateUserDto } from 'src/dtos/user/create-user.dto';
+import { LocalToken } from 'src/dtos/user/local-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
     private readonly userRepository: UserRepositoryOutboundPort,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<CreateUserDto> {
+  async validateUser(email: string, password: string): Promise<LocalToken> {
     const user = await this.userRepository.findUserForSignUp(email);
 
     if (!user) {
@@ -26,8 +27,10 @@ export class AuthService {
       throw new BadRequestException('비밀번호가 틀렸습니다.');
     }
 
-    const { id, createdAt, updatedAt, deletedAt, ...res } = user;
-
-    return res;
+    return {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
+    };
   }
 }
