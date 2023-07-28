@@ -11,20 +11,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
   async onModuleInit() {
     await this.$connect();
-
-    this.$extends({
-      query: {
-        $allModels: {
-          async create({ model, operation, args, query }) {
-            if (args.data.createdAt) {
-              args.data.createdAt = new Date().toISOString();
-            }
-
-            return query(args);
-          },
-        },
-      },
-    });
   }
 
   async enableShutdownHooks(app: INestApplication) {
