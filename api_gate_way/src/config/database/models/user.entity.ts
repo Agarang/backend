@@ -17,7 +17,7 @@ export interface UserEntity {
   password: string;
 
   /**
-   * @pattern [a-zA-Zㄱ-힣]{3,}
+   * @pattern [a-zA-Zㄱ-힣]{3,10}
    */
   nickname: string;
 
@@ -27,7 +27,7 @@ export interface UserEntity {
   name: string;
 
   /**
-   * @format date
+   * @format date-time
    */
   birthday: string;
 
@@ -37,19 +37,19 @@ export interface UserEntity {
   phoneNumber: string;
 
   /**
-   * @format date
+   * @format date-time
    */
   babyDue: string;
 
   /**
-   * @format date
+   * @format date-time
    */
   pregnancyDay: string | null;
 
   /**
    * @pattern [a-zA-Zㄱ-힣]{1,}
    */
-  fetusNickname: string | null;
+  fetusNickname: string;
 
   height: number | null;
 
@@ -58,17 +58,17 @@ export interface UserEntity {
   profilePhotoUrl: string | null;
 
   /**
-   * @format date
+   * @format date-time
    */
   createdAt: string | null;
 
   /**
-   * @format date
+   * @format date-time
    */
   updatedAt: string | null;
 
   /**
-   * @format date
+   * @format date-time
    */
   deletedAt: string | null;
 }
