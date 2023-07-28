@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/config/database/prisma/prisma.service';
 import { UserRepositoryOutboundPort } from './user.repository.outbound-port';
-import { CreateUserDto } from 'src/dtos/user/create-user.dto';
+import {
+  CreateUserDto,
+  CreateUserDtoForSelect,
+} from 'src/dtos/user/create-user.dto';
 import typia from 'typia';
 import { TypeToSelect } from 'src/utils/types/type-to-select.type';
 import { UserEntity } from 'src/config/database/models/user.entity';
-import { CreateUserDtoForSelect } from 'src/dtos/common/select/user-select.dto';
 import * as bcrypt from 'bcrypt';
 import { dateToString } from 'src/utils/functions/date-to-string.function';
 

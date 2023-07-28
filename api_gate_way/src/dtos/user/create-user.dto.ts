@@ -5,3 +5,7 @@ export type CreateUserDto = OmitProperties<
   UserEntity,
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >;
+
+export type CreateUserDtoForSelect = {
+  [P in keyof CreateUserDto as `${P}`]: CreateUserDto[P];
+};
