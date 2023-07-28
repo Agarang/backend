@@ -3,8 +3,9 @@ import { AuthService } from './auth.service';
 import { User } from 'src/middlewares/decorators/user.decorator';
 import { TypedBody, TypedRoute } from '@nestia/core';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AccessTokenReturn, LocalToken } from 'src/dtos/auth/local-token.dto';
+import { IAccessTokenReturn, LocalToken } from 'src/dtos/auth/local-token.dto';
 import { LogInUserDto } from 'src/dtos/user/login-user.dto';
+import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 
 @Controller('/api/v1/auth')
 export class AuthController {
@@ -13,9 +14,9 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @TypedRoute.Post('sign-in')
   async localSignIn(
-    @User() user: LocalToken,
+    @User() user: FindUserInfoOutboundPortOutputDto,
     @TypedBody() body: LogInUserDto,
-  ): Promise<AccessTokenReturn> {
+  ): Promise<IAccessTokenReturn> {
     const token = await this.authService.issueTokenForLocalSignIn(user);
 
     return token;

@@ -51,9 +51,7 @@ describe('User Spec', () => {
 
       const res = await authController.localSignIn(
         {
-          email: user.email,
-          id: user.id,
-          nickname: user.nickname,
+          ...user,
         },
         {
           email: user.email,
