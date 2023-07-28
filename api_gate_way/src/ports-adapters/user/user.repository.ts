@@ -7,6 +7,7 @@ import { TypeToSelect } from 'src/utils/types/type-to-select.type';
 import { UserEntity } from 'src/config/database/models/user.entity';
 import { CreateUserDtoForSelect } from 'src/dtos/common/select/user-select.dto';
 import * as bcrypt from 'bcrypt';
+import { dateToString } from 'src/utils/functions/date-to-string.function';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
@@ -21,7 +22,7 @@ export class UserRepository implements UserRepositoryOutboundPort {
       data: { ...data, password: hashedPassword },
     });
 
-    return user;
+    return dateToString(user);
   }
 
   async findUserForSignUp(email: string): Promise<UserEntity | null> {
@@ -31,6 +32,10 @@ export class UserRepository implements UserRepositoryOutboundPort {
       },
     });
 
-    return user;
+    if (!user) {
+      return null;
+    }
+
+    return dateToString(user);
   }
 }
