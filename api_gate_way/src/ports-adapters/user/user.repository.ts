@@ -14,6 +14,8 @@ import {
   FindUserInfoOutboundPortOutputDto,
   FindUserInfoOutboundPortOutputDtoForSelect,
 } from 'src/dtos/user/find-user-info.dto';
+import { OmitProperties } from 'src/utils/types/omit.type';
+import { UpdateUserDto } from 'src/dtos/user/update-user.dto';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
@@ -61,6 +63,24 @@ export class UserRepository implements UserRepositoryOutboundPort {
     if (!user) {
       return null;
     }
+
+    return dateToString(user);
+  }
+
+  async updateUserInfo(
+    userId: number,
+    data: UpdateUserDto,
+  ): Promise<FindUserInfoOutboundPortOutputDto> {
+    const user = await this.prisma.user.update({
+      select:
+        typia.random<
+          TypeToSelect<FindUserInfoOutboundPortOutputDtoForSelect>
+        >(),
+      data: { ...data },
+      where: {
+        id: userId,
+      },
+    });
 
     return dateToString(user);
   }
