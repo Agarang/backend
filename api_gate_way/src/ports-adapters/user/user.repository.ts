@@ -1,13 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/config/database/prisma/prisma.service';
 import { UserRepositoryOutboundPort } from './user.repository.outbound-port';
-import { CreateUserDto } from 'src/dtos/user/create-user.dto';
+import {
+  CreateUserDto,
+  CreateUserDtoForSelect,
+} from 'src/dtos/user/create-user.dto';
 import typia from 'typia';
 import { TypeToSelect } from 'src/utils/types/type-to-select.type';
 import { UserEntity } from 'src/config/database/models/user.entity';
-import { CreateUserDtoForSelect } from 'src/dtos/common/select/user-select.dto';
 import * as bcrypt from 'bcrypt';
 import { dateToString } from 'src/utils/functions/date-to-string.function';
+import {
+  FindUserInfoOutboundPortOutputDto,
+  FindUserInfoOutboundPortOutputDtoForSelect,
+} from 'src/dtos/user/find-user-info.dto';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
@@ -29,6 +35,26 @@ export class UserRepository implements UserRepositoryOutboundPort {
     const user = await this.prisma.user.findFirst({
       where: {
         email,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return dateToString(user);
+  }
+
+  async findUserInfo(
+    userId: number,
+  ): Promise<FindUserInfoOutboundPortOutputDto | null> {
+    const user = await this.prisma.user.findFirst({
+      select:
+        typia.random<
+          TypeToSelect<FindUserInfoOutboundPortOutputDtoForSelect>
+        >(),
+      where: {
+        id: userId,
       },
     });
 

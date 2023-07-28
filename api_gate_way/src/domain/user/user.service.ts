@@ -1,5 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from 'src/dtos/user/create-user.dto';
+import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import {
   USER_REPOSITORY_OUTBOUND_PORT,
   UserRepositoryOutboundPort,
@@ -21,6 +22,18 @@ export class UserService {
     }
 
     const user = await this.userRepository.insertUser(userInfo);
+
+    return user;
+  }
+
+  async getUserInfo(
+    userId: number,
+  ): Promise<FindUserInfoOutboundPortOutputDto> {
+    const user = await this.userRepository.findUserInfo(userId);
+
+    if (!user) {
+      throw new BadRequestException('잘못된 요청입니다.');
+    }
 
     return user;
   }
