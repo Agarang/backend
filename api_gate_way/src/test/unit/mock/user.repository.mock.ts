@@ -1,6 +1,10 @@
 import { UserEntity } from 'src/config/database/models/user.entity';
-import { CreateUserDto } from 'src/dtos/user/create-user.dto';
+import {
+  CreateUserDto,
+  CreateUserOutboundPortOutputDto,
+} from 'src/dtos/user/create-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
+import { UpdateUserEtcInfoInboundPortInputDto } from 'src/dtos/user/update-user.dto';
 import { UserRepositoryOutboundPort } from 'src/ports-adapters/user/user.repository.outbound-port';
 import { MockParamTypeForTest } from 'src/utils/types/mock-param-type-for-test.type';
 import { OmitProperties } from 'src/utils/types/omit.type';
@@ -14,7 +18,9 @@ export class MockUserRepository implements UserRepositoryOutboundPort {
     this.result = result;
   }
 
-  async insertUser(userInfo: CreateUserDto): Promise<CreateUserDto> {
+  async insertUser(
+    userInfo: CreateUserDto,
+  ): Promise<CreateUserOutboundPortOutputDto> {
     const res = this.result.insertUser?.pop();
     if (res === undefined) {
       throw new Error('undefined');
@@ -34,6 +40,17 @@ export class MockUserRepository implements UserRepositoryOutboundPort {
     userId: number,
   ): Promise<FindUserInfoOutboundPortOutputDto | null> {
     const res = this.result.findUserInfo?.pop();
+    if (res === undefined) {
+      throw new Error('undefined');
+    }
+    return res;
+  }
+
+  async updateUserInfo(
+    userId: number,
+    data: UpdateUserEtcInfoInboundPortInputDto,
+  ): Promise<FindUserInfoOutboundPortOutputDto> {
+    const res = this.result.updateUserInfo?.pop();
     if (res === undefined) {
       throw new Error('undefined');
     }

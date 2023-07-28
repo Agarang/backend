@@ -2,18 +2,22 @@ import { UserService } from 'src/domain/user/user.service';
 import { MockUserRepository } from './mock/user.repository.mock';
 import { UserController } from 'src/domain/user/user.controller';
 import typia from 'typia';
-import { CreateUserDto } from 'src/dtos/user/create-user.dto';
+import {
+  CreateUserDto,
+  CreateUserOutboundPortOutputDto,
+} from 'src/dtos/user/create-user.dto';
 import { UserEntity } from 'src/config/database/models/user.entity';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthController } from 'src/auth/auth.controller';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
+import { UpdateUserEtcInfoInboundPortInputDto } from 'src/dtos/user/update-user.dto';
 
 describe('User Spec', () => {
   describe('1. Register User', () => {
     it('1-1. Sign up', async () => {
-      const userInfo = typia.random<CreateUserDto>();
+      const userInfo = typia.random<CreateUserOutboundPortOutputDto>();
 
       const userService = new UserService(
         new MockUserRepository({
@@ -75,6 +79,24 @@ describe('User Spec', () => {
       const userController = new UserController(userService);
 
       const res = await userController.getOwnUserInfo(user);
+
+      expect(res).toStrictEqual(userInfo);
+    });
+
+    it('3-2. Update User Etc Info', async () => {
+      const user = typia.random<LocalToken>();
+      const userInfo = typia.random<FindUserInfoOutboundPortOutputDto>();
+      const data = typia.random<UpdateUserEtcInfoInboundPortInputDto>();
+
+      const userService = new UserService(
+        new MockUserRepository({
+          updateUserInfo: [userInfo],
+        }),
+      );
+
+      const userController = new UserController(userService);
+
+      const res = await userController.modifyUserEtcInfo(user, data);
 
       expect(res).toStrictEqual(userInfo);
     });
