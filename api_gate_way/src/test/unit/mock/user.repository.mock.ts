@@ -4,8 +4,10 @@ import {
   CreateUserOutboundPortOutputDto,
 } from 'src/dtos/user/create-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
+import { UpdateUserEtcInfoInboundPortInputDto } from 'src/dtos/user/update-user.dto';
 import { UserRepositoryOutboundPort } from 'src/ports-adapters/user/user.repository.outbound-port';
 import { MockParamTypeForTest } from 'src/utils/types/mock-param-type-for-test.type';
+import { OmitProperties } from 'src/utils/types/omit.type';
 
 type MockUserRepositoryParamType = MockParamTypeForTest<MockUserRepository>;
 
@@ -38,6 +40,17 @@ export class MockUserRepository implements UserRepositoryOutboundPort {
     userId: number,
   ): Promise<FindUserInfoOutboundPortOutputDto | null> {
     const res = this.result.findUserInfo?.pop();
+    if (res === undefined) {
+      throw new Error('undefined');
+    }
+    return res;
+  }
+
+  async updateUserInfo(
+    userId: number,
+    data: UpdateUserEtcInfoInboundPortInputDto,
+  ): Promise<FindUserInfoOutboundPortOutputDto> {
+    const res = this.result.updateUserInfo?.pop();
     if (res === undefined) {
       throw new Error('undefined');
     }
