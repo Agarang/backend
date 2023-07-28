@@ -4,8 +4,9 @@ import {
   UserRepositoryOutboundPort,
 } from 'src/ports-adapters/user/user.repository.outbound-port';
 import { compare } from 'bcrypt';
-import { AccessTokenReturn, LocalToken } from 'src/dtos/auth/local-token.dto';
+import { IAccessTokenReturn, LocalToken } from 'src/dtos/auth/local-token.dto';
 import { JwtService } from '@nestjs/jwt';
+import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<LocalToken> {
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<FindUserInfoOutboundPortOutputDto> {
     const user = await this.userRepository.findUserForSignUp(email);
 
     if (!user) {
@@ -28,17 +32,23 @@ export class AuthService {
     if (!isPasswordMatch) {
       throw new BadRequestException('비밀번호가 틀렸습니다.');
     }
+    const { password: pwd, updatedAt, deletedAt, ...res } = user;
 
-    return {
+    return res;
+  }
+
+  async issueTokenForLocalSignIn(
+    user: FindUserInfoOutboundPortOutputDto,
+  ): Promise<IAccessTokenReturn> {
+    const token: LocalToken = {
       id: user.id,
       email: user.email,
       nickname: user.nickname,
     };
-  }
 
-  async issueTokenForLocalSignIn(user: LocalToken): Promise<AccessTokenReturn> {
     return {
-      accessToken: this.jwtService.sign(user),
+      accessToken: this.jwtService.sign(token),
+      ...user,
     };
   }
 }

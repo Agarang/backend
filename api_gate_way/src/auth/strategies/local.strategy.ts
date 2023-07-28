@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from 'src/dtos/user/create-user.dto';
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
+import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
@@ -14,7 +15,10 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     });
   }
 
-  async validate(email: string, password: string): Promise<LocalToken> {
+  async validate(
+    email: string,
+    password: string,
+  ): Promise<FindUserInfoOutboundPortOutputDto> {
     const user = await this.authService.validateUser(email, password);
 
     return user;
