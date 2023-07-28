@@ -10,6 +10,10 @@ import { TypeToSelect } from 'src/utils/types/type-to-select.type';
 import { UserEntity } from 'src/config/database/models/user.entity';
 import * as bcrypt from 'bcrypt';
 import { dateToString } from 'src/utils/functions/date-to-string.function';
+import {
+  FindUserInfoOutboundPortOutputDto,
+  FindUserInfoOutboundPortOutputDtoForSelect,
+} from 'src/dtos/user/find-user-info.dto';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
@@ -31,6 +35,26 @@ export class UserRepository implements UserRepositoryOutboundPort {
     const user = await this.prisma.user.findFirst({
       where: {
         email,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return dateToString(user);
+  }
+
+  async findUserInfo(
+    userId: number,
+  ): Promise<FindUserInfoOutboundPortOutputDto | null> {
+    const user = await this.prisma.user.findFirst({
+      select:
+        typia.random<
+          TypeToSelect<FindUserInfoOutboundPortOutputDtoForSelect>
+        >(),
+      where: {
+        id: userId,
       },
     });
 
