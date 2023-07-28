@@ -1,9 +1,11 @@
 import { UserEntity } from 'src/config/database/models/user.entity';
-import { CreateUserDto } from 'src/dtos/user/create-user.dto';
+import {
+  CreateUserDto,
+  CreateUserOutboundPortOutputDto,
+} from 'src/dtos/user/create-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import { UserRepositoryOutboundPort } from 'src/ports-adapters/user/user.repository.outbound-port';
 import { MockParamTypeForTest } from 'src/utils/types/mock-param-type-for-test.type';
-import { OmitProperties } from 'src/utils/types/omit.type';
 
 type MockUserRepositoryParamType = MockParamTypeForTest<MockUserRepository>;
 
@@ -14,7 +16,9 @@ export class MockUserRepository implements UserRepositoryOutboundPort {
     this.result = result;
   }
 
-  async insertUser(userInfo: CreateUserDto): Promise<CreateUserDto> {
+  async insertUser(
+    userInfo: CreateUserDto,
+  ): Promise<CreateUserOutboundPortOutputDto> {
     const res = this.result.insertUser?.pop();
     if (res === undefined) {
       throw new Error('undefined');

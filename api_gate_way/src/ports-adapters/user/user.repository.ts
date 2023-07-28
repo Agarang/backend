@@ -3,7 +3,8 @@ import { PrismaService } from 'src/config/database/prisma/prisma.service';
 import { UserRepositoryOutboundPort } from './user.repository.outbound-port';
 import {
   CreateUserDto,
-  CreateUserDtoForSelect,
+  CreateUserOutboundPortOutputDto,
+  CreateUserOutboundPortOutputDtoForSelect,
 } from 'src/dtos/user/create-user.dto';
 import typia from 'typia';
 import { TypeToSelect } from 'src/utils/types/type-to-select.type';
@@ -14,19 +15,21 @@ import {
   FindUserInfoOutboundPortOutputDto,
   FindUserInfoOutboundPortOutputDtoForSelect,
 } from 'src/dtos/user/find-user-info.dto';
-import { OmitProperties } from 'src/utils/types/omit.type';
 import { UpdateUserDto } from 'src/dtos/user/update-user.dto';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
   constructor(private readonly prisma: PrismaService) {}
 
-  async insertUser(userInfo: CreateUserDto): Promise<CreateUserDto> {
+  async insertUser(
+    userInfo: CreateUserDto,
+  ): Promise<CreateUserOutboundPortOutputDto> {
     const { password, ...data } = userInfo;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.prisma.user.create({
-      select: typia.random<TypeToSelect<CreateUserDtoForSelect>>(),
+      select:
+        typia.random<TypeToSelect<CreateUserOutboundPortOutputDtoForSelect>>(),
       data: { ...data, password: hashedPassword },
     });
 

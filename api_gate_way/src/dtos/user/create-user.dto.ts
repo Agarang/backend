@@ -6,6 +6,11 @@ export type CreateUserDto = OmitProperties<
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >;
 
-export type CreateUserDtoForSelect = {
-  [P in keyof CreateUserDto as `${P}`]: CreateUserDto[P];
+export type CreateUserOutboundPortOutputDto = OmitProperties<
+  UserEntity,
+  'updatedAt' | 'deletedAt'
+>;
+
+export type CreateUserOutboundPortOutputDtoForSelect = {
+  [P in keyof CreateUserOutboundPortOutputDto as `${P}`]: CreateUserOutboundPortOutputDto[P];
 };

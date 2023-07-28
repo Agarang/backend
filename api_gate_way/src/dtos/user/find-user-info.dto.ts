@@ -3,7 +3,7 @@ import { OmitProperties } from 'src/utils/types/omit.type';
 
 export type FindUserInfoOutboundPortOutputDto = OmitProperties<
   UserEntity,
-  'id' | 'updatedAt' | 'deletedAt' | 'password'
+  'updatedAt' | 'deletedAt' | 'password'
 >;
 
 export type FindUserInfoOutboundPortOutputDtoForSelect = {
