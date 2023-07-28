@@ -7,6 +7,8 @@ import { UserEntity } from 'src/config/database/models/user.entity';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthController } from 'src/auth/auth.controller';
+import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
+import { LocalToken } from 'src/dtos/auth/local-token.dto';
 
 describe('User Spec', () => {
   describe('1. Register User', () => {
@@ -56,6 +58,25 @@ describe('User Spec', () => {
       );
 
       expect(res.accessToken).toBeDefined();
+    });
+  });
+
+  describe('3. User Info', () => {
+    it('3-1. Get Own User Info', async () => {
+      const user = typia.random<LocalToken>();
+      const userInfo = typia.random<FindUserInfoOutboundPortOutputDto>();
+
+      const userService = new UserService(
+        new MockUserRepository({
+          findUserInfo: [userInfo],
+        }),
+      );
+
+      const userController = new UserController(userService);
+
+      const res = await userController.getOwnUserInfo(user);
+
+      expect(res).toStrictEqual(userInfo);
     });
   });
 });
