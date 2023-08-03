@@ -15,7 +15,10 @@ import {
   FindUserInfoOutboundPortOutputDto,
   FindUserInfoOutboundPortOutputDtoForSelect,
 } from 'src/dtos/user/find-user-info.dto';
-import { UpdateUserDto } from 'src/dtos/user/update-user.dto';
+import {
+  UpdateUserDto,
+  UpdateUserPhoneNumberOutboundPortOutputDto,
+} from 'src/dtos/user/update-user.dto';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
@@ -86,5 +89,22 @@ export class UserRepository implements UserRepositoryOutboundPort {
     });
 
     return dateToString(user);
+  }
+
+  async updatePhoneNumber(
+    userId: number,
+    phoneNumber: string,
+  ): Promise<UpdateUserPhoneNumberOutboundPortOutputDto> {
+    const pn = await this.prisma.user.update({
+      select: { phoneNumber: true },
+      where: {
+        id: userId,
+      },
+      data: {
+        phoneNumber,
+      },
+    });
+
+    return pn;
   }
 }

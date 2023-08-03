@@ -17,3 +17,8 @@ export type UpdateUserEtcInfoInboundPortInputDto = OmitProperties<
   | 'profilePhotoUrl'
   | 'nickname'
 >;
+
+export type UpdateUserPhoneNumberOutboundPortOutputDto = Pick<
+  UserEntity,
+  'phoneNumber'
+>;
