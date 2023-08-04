@@ -29,3 +29,9 @@ export type UpdateUserPhoneNumberOutboundPortOutputDto = Pick<
   UserEntity,
   'phoneNumber'
 >;
+
+// update nickname
+export type UpdateUserNicknameOutboundPortOutputDto = Pick<
+  UserEntity,
+  'nickname'
+>;

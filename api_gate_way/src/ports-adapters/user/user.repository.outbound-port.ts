@@ -6,6 +6,7 @@ import {
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import {
   UpdateUserDto,
+  UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
 
@@ -26,4 +27,8 @@ export interface UserRepositoryOutboundPort {
     userId: number,
     phoneNumber: string,
   ): Promise<UpdateUserPhoneNumberOutboundPortOutputDto>;
+  updateNickname(
+    userId: number,
+    nickname: string,
+  ): Promise<UpdateUserNicknameOutboundPortOutputDto>;
 }
