@@ -89,7 +89,7 @@ export class UserController {
     @User() user: LocalToken,
     @Body() body: UpdateUserEmailInboundPortInputDto,
   ): Promise<UpdateUserEmailOutboundPortOutputDto> {
-    const email = await this.userService.modifyEmail(user.id, body.nickname);
+    const email = await this.userService.modifyEmail(user.id, body.email);
 
     return email;
   }
