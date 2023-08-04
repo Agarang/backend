@@ -16,6 +16,8 @@ import {
   UpdateUserEmailOutboundPortOutputDto,
   UpdateUserEtcInfoInboundPortInputDto,
   UpdateUserNicknameOutboundPortOutputDto,
+  UpdateUserPasswordInboundPortInputDto,
+  UpdateUserPasswordOutboundPortOutputDto,
   UpdateUserPhoneNumberInboundPortInputDto,
 } from 'src/dtos/user/update-user.dto';
 
@@ -155,6 +157,25 @@ describe('User Spec', () => {
       const res = await userController.modifyEmail(user, email);
 
       expect(res).toStrictEqual(email);
+    });
+
+    it('3-6. Update User Password', async () => {
+      const userInfo = typia.random<UpdateUserPasswordOutboundPortOutputDto>();
+
+      const passwordPair =
+        typia.random<UpdateUserPasswordInboundPortInputDto>();
+
+      const userService = new UserService(
+        new MockUserRepository({
+          updatePassword: [userInfo],
+        }),
+      );
+
+      const userController = new UserController(userService);
+
+      const res = await userController.modifyPassword(user, passwordPair);
+
+      expect(res).toStrictEqual(userInfo);
     });
   });
 });
