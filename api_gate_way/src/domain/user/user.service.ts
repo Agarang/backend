@@ -6,6 +6,7 @@ import {
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import {
   UpdateUserEtcInfoInboundPortInputDto,
+  UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
 import {
@@ -63,5 +64,17 @@ export class UserService {
     const pn = await this.userRepository.updatePhoneNumber(userId, phoneNumber);
 
     return pn;
+  }
+
+  async modifyNickname(
+    userId: number,
+    nickname: string,
+  ): Promise<UpdateUserNicknameOutboundPortOutputDto> {
+    const updatedNickname = await this.userRepository.updateNickname(
+      userId,
+      nickname,
+    );
+
+    return updatedNickname;
   }
 }

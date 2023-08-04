@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/config/database/prisma/prisma.service';
 import { UserRepositoryOutboundPort } from './user.repository.outbound-port';
 import {
@@ -17,6 +17,7 @@ import {
 } from 'src/dtos/user/find-user-info.dto';
 import {
   UpdateUserDto,
+  UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
 
@@ -106,5 +107,29 @@ export class UserRepository implements UserRepositoryOutboundPort {
     });
 
     return pn;
+  }
+
+  async updateNickname(
+    userId: number,
+    nickname: string,
+  ): Promise<UpdateUserNicknameOutboundPortOutputDto> {
+    const existedNickname = await this.prisma.user.findFirst({
+      select: { nickname: true },
+      where: { nickname },
+    });
+
+    if (existedNickname !== null) {
+      throw new BadRequestException('이미 존재하는 닉네임 입니다.');
+    }
+
+    const updatedNickname = await this.prisma.user.update({
+      select: { nickname: true },
+      where: { id: userId },
+      data: {
+        nickname,
+      },
+    });
+
+    return updatedNickname;
   }
 }

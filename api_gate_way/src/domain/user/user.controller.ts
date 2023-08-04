@@ -1,4 +1,4 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Body, Controller, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { TypedBody, TypedParam, TypedRoute } from '@nestia/core';
 import {
@@ -11,6 +11,8 @@ import { User } from 'src/middlewares/decorators/user.decorator';
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
 import {
   UpdateUserEtcInfoInboundPortInputDto,
+  UpdateUserNicknameInboundPortInputDto,
+  UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberInboundPortInputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
@@ -63,5 +65,19 @@ export class UserController {
     );
 
     return phoneNumber;
+  }
+
+  @UseGuards(JwtLocalGuard)
+  @TypedRoute.Put('nickname')
+  async modifyNickname(
+    @User() user: LocalToken,
+    @Body() body: UpdateUserNicknameInboundPortInputDto,
+  ): Promise<UpdateUserNicknameOutboundPortOutputDto> {
+    const nickname = await this.userService.modifyNickname(
+      user.id,
+      body.nickname,
+    );
+
+    return nickname;
   }
 }

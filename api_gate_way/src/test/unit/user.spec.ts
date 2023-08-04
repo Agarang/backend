@@ -14,10 +14,17 @@ import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
 import {
   UpdateUserEtcInfoInboundPortInputDto,
+  UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberInboundPortInputDto,
 } from 'src/dtos/user/update-user.dto';
 
 describe('User Spec', () => {
+  let user: LocalToken;
+
+  beforeAll(async () => {
+    user = typia.random<LocalToken>();
+  });
+
   describe('1. Register User', () => {
     it('1-1. Sign up', async () => {
       const userInfo = typia.random<CreateUserOutboundPortOutputDto>();
@@ -68,7 +75,6 @@ describe('User Spec', () => {
 
   describe('3. User Info', () => {
     it('3-1. Get Own User Info', async () => {
-      const user = typia.random<LocalToken>();
       const userInfo = typia.random<FindUserInfoOutboundPortOutputDto>();
 
       const userService = new UserService(
@@ -85,7 +91,6 @@ describe('User Spec', () => {
     });
 
     it('3-2. Update User Etc Info', async () => {
-      const user = typia.random<LocalToken>();
       const userInfo = typia.random<FindUserInfoOutboundPortOutputDto>();
       const data = typia.random<UpdateUserEtcInfoInboundPortInputDto>();
 
@@ -103,7 +108,6 @@ describe('User Spec', () => {
     });
 
     it('3-3. Update User Phone Number', async () => {
-      const user = typia.random<LocalToken>();
       const phoneNumber =
         typia.random<UpdateUserPhoneNumberInboundPortInputDto>();
 
@@ -118,6 +122,22 @@ describe('User Spec', () => {
       const res = await userController.modifyPhoneNumber(user, phoneNumber);
 
       expect(res).toStrictEqual(phoneNumber);
+    });
+
+    it('3-4. Update User Nickname', async () => {
+      const nickname = typia.random<UpdateUserNicknameOutboundPortOutputDto>();
+
+      const userService = new UserService(
+        new MockUserRepository({
+          updateNickname: [nickname],
+        }),
+      );
+
+      const userController = new UserController(userService);
+
+      const res = await userController.modifyNickname(user, nickname);
+
+      expect(res).toStrictEqual(nickname);
     });
   });
 });
