@@ -8,6 +8,8 @@ import {
   UpdateUserDto,
   UpdateUserEmailOutboundPortOutputDto,
   UpdateUserNicknameOutboundPortOutputDto,
+  UpdateUserPasswordInboundPortInputDto,
+  UpdateUserPasswordOutboundPortOutputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
 
@@ -36,4 +38,8 @@ export interface UserRepositoryOutboundPort {
     userId: number,
     email: string,
   ): Promise<UpdateUserEmailOutboundPortOutputDto>;
+  updatePassword(
+    userId: number,
+    passwordPair: UpdateUserPasswordInboundPortInputDto,
+  ): Promise<UpdateUserPasswordOutboundPortOutputDto>;
 }
