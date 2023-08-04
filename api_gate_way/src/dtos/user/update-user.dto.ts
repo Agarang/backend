@@ -42,4 +42,6 @@ export type UpdateUserNicknameOutboundPortOutputDto = Pick<
 >;
 
 // update email
+export type UpdateUserEmailInboundPortInputDto = Pick<UserEntity, 'nickname'>;
+
 export type UpdateUserEmailOutboundPortOutputDto = Pick<UserEntity, 'email'>;

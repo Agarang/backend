@@ -10,6 +10,8 @@ import { JwtLocalGuard } from 'src/auth/guards/jwt-local.guard';
 import { User } from 'src/middlewares/decorators/user.decorator';
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
 import {
+  UpdateUserEmailInboundPortInputDto,
+  UpdateUserEmailOutboundPortOutputDto,
   UpdateUserEtcInfoInboundPortInputDto,
   UpdateUserNicknameInboundPortInputDto,
   UpdateUserNicknameOutboundPortOutputDto,
@@ -79,5 +81,16 @@ export class UserController {
     );
 
     return nickname;
+  }
+
+  @UseGuards(JwtLocalGuard)
+  @TypedRoute.Put('email')
+  async modifyEmail(
+    @User() user: LocalToken,
+    @Body() body: UpdateUserEmailInboundPortInputDto,
+  ): Promise<UpdateUserEmailOutboundPortOutputDto> {
+    const email = await this.userService.modifyEmail(user.id, body.nickname);
+
+    return email;
   }
 }
