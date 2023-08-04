@@ -14,6 +14,7 @@ import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
 import {
   UpdateUserEtcInfoInboundPortInputDto,
+  UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberInboundPortInputDto,
 } from 'src/dtos/user/update-user.dto';
 
@@ -118,6 +119,23 @@ describe('User Spec', () => {
       const res = await userController.modifyPhoneNumber(user, phoneNumber);
 
       expect(res).toStrictEqual(phoneNumber);
+    });
+
+    it('3-4. Update User Nickname', async () => {
+      const user = typia.random<LocalToken>();
+      const nickname = typia.random<UpdateUserNicknameOutboundPortOutputDto>();
+
+      const userService = new UserService(
+        new MockUserRepository({
+          updateNickname: [nickname],
+        }),
+      );
+
+      const userController = new UserController(userService);
+
+      const res = await userController.modifyNickname(user, nickname);
+
+      expect(res).toStrictEqual(nickname);
     });
   });
 });

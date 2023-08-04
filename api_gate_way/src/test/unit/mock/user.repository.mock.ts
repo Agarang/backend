@@ -6,6 +6,7 @@ import {
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import {
   UpdateUserEtcInfoInboundPortInputDto,
+  UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
 import { UserRepositoryOutboundPort } from 'src/ports-adapters/user/user.repository.outbound-port';
@@ -65,6 +66,17 @@ export class MockUserRepository implements UserRepositoryOutboundPort {
     phoneNumber: string,
   ): Promise<UpdateUserPhoneNumberOutboundPortOutputDto> {
     const res = this.result.updatePhoneNumber?.pop();
+    if (res === undefined) {
+      throw new Error('undefined');
+    }
+    return res;
+  }
+
+  async updateNickname(
+    userId: number,
+    nickname: string,
+  ): Promise<UpdateUserNicknameOutboundPortOutputDto> {
+    const res = this.result.updateNickname?.pop();
     if (res === undefined) {
       throw new Error('undefined');
     }
