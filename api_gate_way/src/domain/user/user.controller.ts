@@ -1,6 +1,6 @@
 import { Body, Controller, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { TypedBody, TypedParam, TypedRoute } from '@nestia/core';
+import { TypedBody, TypedRoute } from '@nestia/core';
 import {
   CreateUserDto,
   CreateUserOutboundPortOutputDto,
@@ -15,6 +15,8 @@ import {
   UpdateUserEtcInfoInboundPortInputDto,
   UpdateUserNicknameInboundPortInputDto,
   UpdateUserNicknameOutboundPortOutputDto,
+  UpdateUserPasswordInboundPortInputDto,
+  UpdateUserPasswordOutboundPortOutputDto,
   UpdateUserPhoneNumberInboundPortInputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
@@ -92,5 +94,19 @@ export class UserController {
     const email = await this.userService.modifyEmail(user.id, body.email);
 
     return email;
+  }
+
+  @UseGuards(JwtLocalGuard)
+  @TypedRoute.Put('password')
+  async modifyPassword(
+    @User() user: LocalToken,
+    @Body() body: UpdateUserPasswordInboundPortInputDto,
+  ): Promise<UpdateUserPasswordOutboundPortOutputDto> {
+    const userInfo = await this.userService.modifyPassword(user.id, {
+      password: body.password,
+      passwordConfirm: body.passwordConfirm,
+    });
+
+    return userInfo;
   }
 }
