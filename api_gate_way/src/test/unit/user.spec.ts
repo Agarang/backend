@@ -13,6 +13,7 @@ import { AuthController } from 'src/auth/auth.controller';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
 import {
+  UpdateUserEmailOutboundPortOutputDto,
   UpdateUserEtcInfoInboundPortInputDto,
   UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberInboundPortInputDto,
@@ -138,6 +139,22 @@ describe('User Spec', () => {
       const res = await userController.modifyNickname(user, nickname);
 
       expect(res).toStrictEqual(nickname);
+    });
+
+    it('3-5. Update User Email', async () => {
+      const email = typia.random<UpdateUserEmailOutboundPortOutputDto>();
+
+      const userService = new UserService(
+        new MockUserRepository({
+          updateEmail: [email],
+        }),
+      );
+
+      const userController = new UserController(userService);
+
+      const res = await userController.modifyEmail(user, email);
+
+      expect(res).toStrictEqual(email);
     });
   });
 });

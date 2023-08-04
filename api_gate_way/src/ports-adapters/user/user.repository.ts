@@ -17,6 +17,7 @@ import {
 } from 'src/dtos/user/find-user-info.dto';
 import {
   UpdateUserDto,
+  UpdateUserEmailOutboundPortOutputDto,
   UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
@@ -131,5 +132,29 @@ export class UserRepository implements UserRepositoryOutboundPort {
     });
 
     return updatedNickname;
+  }
+
+  async updateEmail(
+    userId: number,
+    email: string,
+  ): Promise<UpdateUserEmailOutboundPortOutputDto> {
+    const existedEmail = await this.prisma.user.findFirst({
+      select: { email: true },
+      where: { email },
+    });
+
+    if (existedEmail !== null) {
+      throw new BadRequestException('이미 존재하는 이메일입니다.');
+    }
+
+    const updatedEmail = await this.prisma.user.update({
+      select: { email: true },
+      where: { id: userId },
+      data: {
+        email,
+      },
+    });
+
+    return updatedEmail;
   }
 }
