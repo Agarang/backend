@@ -9,7 +9,11 @@ import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.
 import { JwtLocalGuard } from 'src/auth/guards/jwt-local.guard';
 import { User } from 'src/middlewares/decorators/user.decorator';
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
-import { UpdateUserEtcInfoInboundPortInputDto } from 'src/dtos/user/update-user.dto';
+import {
+  UpdateUserEtcInfoInboundPortInputDto,
+  UpdateUserPhoneNumberInboundPortInputDto,
+  UpdateUserPhoneNumberOutboundPortOutputDto,
+} from 'src/dtos/user/update-user.dto';
 
 @Controller('/api/v1/user')
 export class UserController {
@@ -45,5 +49,19 @@ export class UserController {
     const userInfo = await this.userService.modifyUserEtcInfo(user.id, body);
 
     return userInfo;
+  }
+
+  @UseGuards(JwtLocalGuard)
+  @TypedRoute.Put('phone-number')
+  async modifyPhoneNumber(
+    @User() user: LocalToken,
+    @TypedBody() body: UpdateUserPhoneNumberInboundPortInputDto,
+  ): Promise<UpdateUserPhoneNumberOutboundPortOutputDto> {
+    const phoneNumber = await this.userService.modifyPhoneNumber(
+      user.id,
+      body.phoneNumber,
+    );
+
+    return phoneNumber;
   }
 }

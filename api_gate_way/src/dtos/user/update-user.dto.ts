@@ -18,6 +18,13 @@ export type UpdateUserEtcInfoInboundPortInputDto = OmitProperties<
   | 'nickname'
 >;
 
+// update phone number
+
+export type UpdateUserPhoneNumberInboundPortInputDto = Pick<
+  UserEntity,
+  'phoneNumber'
+>;
+
 export type UpdateUserPhoneNumberOutboundPortOutputDto = Pick<
   UserEntity,
   'phoneNumber'
