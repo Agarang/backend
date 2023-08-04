@@ -25,6 +25,7 @@ import {
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
 import { OmitProperties } from 'src/utils/types/omit.type';
+import { DeleteUserOutboundPortOutputDto } from 'src/dtos/user/delete-user.dto';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
@@ -178,6 +179,18 @@ export class UserRepository implements UserRepositoryOutboundPort {
       where: { id: userId },
       data: {
         password: passwordPair.passwordConfirm,
+      },
+    });
+
+    return dateToString(user);
+  }
+
+  async deleteUser(userId: number): Promise<DeleteUserOutboundPortOutputDto> {
+    const user = await this.prisma.user.update({
+      select: typia.random<TypeToSelect<DeleteUserOutboundPortOutputDto>>(),
+      where: { id: userId },
+      data: {
+        deletedAt: new Date().toISOString(),
       },
     });
 

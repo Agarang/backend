@@ -3,6 +3,7 @@ import {
   CreateUserDto,
   CreateUserOutboundPortOutputDto,
 } from 'src/dtos/user/create-user.dto';
+import { DeleteUserOutboundPortOutputDto } from 'src/dtos/user/delete-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import {
   UpdateUserDto,
@@ -42,4 +43,5 @@ export interface UserRepositoryOutboundPort {
     userId: number,
     passwordPair: UpdateUserPasswordInboundPortInputDto,
   ): Promise<UpdateUserPasswordOutboundPortOutputDto>;
+  deleteUser(userId: number): Promise<DeleteUserOutboundPortOutputDto>;
 }
