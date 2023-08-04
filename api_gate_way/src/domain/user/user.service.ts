@@ -8,6 +8,8 @@ import {
   UpdateUserEmailOutboundPortOutputDto,
   UpdateUserEtcInfoInboundPortInputDto,
   UpdateUserNicknameOutboundPortOutputDto,
+  UpdateUserPasswordInboundPortInputDto,
+  UpdateUserPasswordOutboundPortOutputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
 import {
@@ -86,5 +88,14 @@ export class UserService {
     const updatedEmail = await this.userRepository.updateEmail(userId, email);
 
     return updatedEmail;
+  }
+
+  async modifyPassword(
+    userId: number,
+    passwordPair: UpdateUserPasswordInboundPortInputDto,
+  ): Promise<UpdateUserPasswordOutboundPortOutputDto> {
+    const user = await this.userRepository.updatePassword(userId, passwordPair);
+
+    return user;
   }
 }
