@@ -45,3 +45,18 @@ export type UpdateUserNicknameOutboundPortOutputDto = Pick<
 export type UpdateUserEmailInboundPortInputDto = Pick<UserEntity, 'email'>;
 
 export type UpdateUserEmailOutboundPortOutputDto = Pick<UserEntity, 'email'>;
+
+// update password
+export interface UpdateUserPasswordInboundPortInputDto
+  extends Pick<UserEntity, 'password'> {
+  passwordConfirm: string;
+}
+
+export type UpdateUserPasswordOutboundPortOutputDto = OmitProperties<
+  UserEntity,
+  'password'
+>;
+
+export type UpdateUserPasswordOutboundPortOutputDtoForSelect = {
+  [P in keyof UpdateUserPasswordOutboundPortOutputDto as `${P}`]: UpdateUserPasswordOutboundPortOutputDto[P];
+};

@@ -19,8 +19,12 @@ import {
   UpdateUserDto,
   UpdateUserEmailOutboundPortOutputDto,
   UpdateUserNicknameOutboundPortOutputDto,
+  UpdateUserPasswordInboundPortInputDto,
+  UpdateUserPasswordOutboundPortOutputDto,
+  UpdateUserPasswordOutboundPortOutputDtoForSelect,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
+import { OmitProperties } from 'src/utils/types/omit.type';
 
 @Injectable()
 export class UserRepository implements UserRepositoryOutboundPort {
@@ -156,5 +160,27 @@ export class UserRepository implements UserRepositoryOutboundPort {
     });
 
     return updatedEmail;
+  }
+
+  async updatePassword(
+    userId: number,
+    passwordPair: UpdateUserPasswordInboundPortInputDto,
+  ): Promise<UpdateUserPasswordOutboundPortOutputDto> {
+    if (passwordPair.password !== passwordPair.passwordConfirm) {
+      throw new BadRequestException('비밀번호와 비밀번호 확인이 다릅니다.');
+    }
+
+    const user = await this.prisma.user.update({
+      select:
+        typia.random<
+          TypeToSelect<UpdateUserPasswordOutboundPortOutputDtoForSelect>
+        >(),
+      where: { id: userId },
+      data: {
+        password: passwordPair.passwordConfirm,
+      },
+    });
+
+    return dateToString(user);
   }
 }

@@ -8,6 +8,7 @@ import {
   UpdateUserEmailOutboundPortOutputDto,
   UpdateUserEtcInfoInboundPortInputDto,
   UpdateUserNicknameOutboundPortOutputDto,
+  UpdateUserPasswordInboundPortInputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
 import { UserRepositoryOutboundPort } from 'src/ports-adapters/user/user.repository.outbound-port';
@@ -89,6 +90,17 @@ export class MockUserRepository implements UserRepositoryOutboundPort {
     email: string,
   ): Promise<UpdateUserEmailOutboundPortOutputDto> {
     const res = this.result.updateEmail?.pop();
+    if (res === undefined) {
+      throw new Error('undefined');
+    }
+    return res;
+  }
+
+  async updatePassword(
+    userId: number,
+    passwordPair: UpdateUserPasswordInboundPortInputDto,
+  ): Promise<OmitProperties<UserEntity, 'password'>> {
+    const res = this.result.updatePassword?.pop();
     if (res === undefined) {
       throw new Error('undefined');
     }
