@@ -5,6 +5,7 @@ import {
 } from 'src/dtos/user/create-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import {
+  UpdateUserEmailOutboundPortOutputDto,
   UpdateUserEtcInfoInboundPortInputDto,
   UpdateUserNicknameOutboundPortOutputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
@@ -76,5 +77,14 @@ export class UserService {
     );
 
     return updatedNickname;
+  }
+
+  async modifyEmail(
+    userId: number,
+    email: string,
+  ): Promise<UpdateUserEmailOutboundPortOutputDto> {
+    const updatedEmail = await this.userRepository.updateEmail(userId, email);
+
+    return updatedEmail;
   }
 }
