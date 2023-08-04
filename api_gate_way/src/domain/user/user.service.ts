@@ -4,7 +4,10 @@ import {
   CreateUserOutboundPortOutputDto,
 } from 'src/dtos/user/create-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
-import { UpdateUserEtcInfoInboundPortInputDto } from 'src/dtos/user/update-user.dto';
+import {
+  UpdateUserEtcInfoInboundPortInputDto,
+  UpdateUserPhoneNumberOutboundPortOutputDto,
+} from 'src/dtos/user/update-user.dto';
 import {
   USER_REPOSITORY_OUTBOUND_PORT,
   UserRepositoryOutboundPort,
@@ -51,5 +54,14 @@ export class UserService {
     const user = await this.userRepository.updateUserInfo(userId, data);
 
     return user;
+  }
+
+  async modifyPhoneNumber(
+    userId: number,
+    phoneNumber: string,
+  ): Promise<UpdateUserPhoneNumberOutboundPortOutputDto> {
+    const pn = await this.userRepository.updatePhoneNumber(userId, phoneNumber);
+
+    return pn;
   }
 }
