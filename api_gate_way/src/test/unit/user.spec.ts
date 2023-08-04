@@ -12,7 +12,10 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthController } from 'src/auth/auth.controller';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
-import { UpdateUserEtcInfoInboundPortInputDto } from 'src/dtos/user/update-user.dto';
+import {
+  UpdateUserEtcInfoInboundPortInputDto,
+  UpdateUserPhoneNumberInboundPortInputDto,
+} from 'src/dtos/user/update-user.dto';
 
 describe('User Spec', () => {
   describe('1. Register User', () => {
@@ -97,6 +100,24 @@ describe('User Spec', () => {
       const res = await userController.modifyUserEtcInfo(user, data);
 
       expect(res).toStrictEqual(userInfo);
+    });
+
+    it('3-3. Update User Phone Number', async () => {
+      const user = typia.random<LocalToken>();
+      const phoneNumber =
+        typia.random<UpdateUserPhoneNumberInboundPortInputDto>();
+
+      const userService = new UserService(
+        new MockUserRepository({
+          updatePhoneNumber: [phoneNumber],
+        }),
+      );
+
+      const userController = new UserController(userService);
+
+      const res = await userController.modifyPhoneNumber(user, phoneNumber);
+
+      expect(res).toStrictEqual(phoneNumber);
     });
   });
 });
