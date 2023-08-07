@@ -10,11 +10,8 @@ export type DateToString<T extends object> = {
 
 type DateToStringOnly<T> = T extends Date ? string : T;
 
-type ArrayForDateToString<T extends Array<unknown>> = T extends [
-  infer F,
-  ...infer R,
-]
-  ? F extends object
-    ? [DateToString<F>, ...ArrayForDateToString<R>]
-    : [F, ...ArrayForDateToString<R>]
-  : T;
+export type ArrayForDateToString<T> = T extends Array<infer U>
+  ? U extends object
+    ? [DateToString<U>]
+    : [...ArrayForDateToString<U>]
+  : [T];
