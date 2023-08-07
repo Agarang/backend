@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/config/database/prisma/prisma.service';
 import { UserRepositoryOutboundPort } from './user.repository.outbound-port';
 import {
@@ -170,9 +174,29 @@ export class UserRepository implements UserRepositoryOutboundPort {
     userId: number,
     passwordPair: UpdateUserPasswordInboundPortInputDto,
   ): Promise<UpdateUserPasswordOutboundPortOutputDto> {
-    if (passwordPair.password !== passwordPair.passwordConfirm) {
+    const originPassword = await this.prisma.user.findFirst({
+      select: { password: true },
+      where: { id: userId },
+    });
+
+    if (!originPassword) {
+      throw new BadRequestException('잘못된 유저 정보입니다.');
+    }
+
+    const isPasswordMatch = await bcrypt.compare(
+      passwordPair.currentPassword,
+      originPassword.password,
+    );
+
+    if (!isPasswordMatch) {
+      throw new UnauthorizedException('현재 비밀번호가 다릅니다.');
+    }
+
+    if (passwordPair.modifiedPassword !== passwordPair.passwordConfirm) {
       throw new BadRequestException('비밀번호와 비밀번호 확인이 다릅니다.');
     }
+
+    const hashedPassword = await bcrypt.hash(passwordPair.passwordConfirm, 10);
 
     const user = await this.prisma.user.update({
       select:
@@ -181,7 +205,7 @@ export class UserRepository implements UserRepositoryOutboundPort {
         >(),
       where: { id: userId },
       data: {
-        password: passwordPair.passwordConfirm,
+        password: hashedPassword,
       },
     });
 

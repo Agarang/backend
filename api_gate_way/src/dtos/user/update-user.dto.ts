@@ -47,8 +47,9 @@ export type UpdateUserEmailInboundPortInputDto = Pick<UserEntity, 'email'>;
 export type UpdateUserEmailOutboundPortOutputDto = Pick<UserEntity, 'email'>;
 
 // update password
-export interface UpdateUserPasswordInboundPortInputDto
-  extends Pick<UserEntity, 'password'> {
+export interface UpdateUserPasswordInboundPortInputDto {
+  currentPassword: string;
+  modifiedPassword: string;
   passwordConfirm: string;
 }
 
