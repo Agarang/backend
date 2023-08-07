@@ -20,6 +20,7 @@ import {
   UpdateUserPasswordOutboundPortOutputDto,
   UpdateUserPhoneNumberInboundPortInputDto,
 } from 'src/dtos/user/update-user.dto';
+import { DeleteUserOutboundPortOutputDto } from 'src/dtos/user/delete-user.dto';
 
 describe('User Spec', () => {
   let user: LocalToken;
@@ -176,6 +177,24 @@ describe('User Spec', () => {
       const res = await userController.modifyPassword(user, passwordPair);
 
       expect(res).toStrictEqual(userInfo);
+    });
+  });
+
+  describe('4. Unregister User', () => {
+    it('4-1. Unregister User', async () => {
+      const deletedUser = typia.random<DeleteUserOutboundPortOutputDto>();
+
+      const userService = new UserService(
+        new MockUserRepository({
+          deleteUser: [deletedUser],
+        }),
+      );
+
+      const userController = new UserController(userService);
+
+      const res = await userController.unregister(user);
+
+      expect(res).toStrictEqual(deletedUser);
     });
   });
 });
