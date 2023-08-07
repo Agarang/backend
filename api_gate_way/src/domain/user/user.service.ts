@@ -3,6 +3,7 @@ import {
   CreateUserDto,
   CreateUserOutboundPortOutputDto,
 } from 'src/dtos/user/create-user.dto';
+import { DeleteUserOutboundPortOutputDto } from 'src/dtos/user/delete-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import {
   UpdateUserEmailOutboundPortOutputDto,
@@ -95,6 +96,12 @@ export class UserService {
     passwordPair: UpdateUserPasswordInboundPortInputDto,
   ): Promise<UpdateUserPasswordOutboundPortOutputDto> {
     const user = await this.userRepository.updatePassword(userId, passwordPair);
+
+    return user;
+  }
+
+  async unregister(userId: number): Promise<DeleteUserOutboundPortOutputDto> {
+    const user = await this.userRepository.deleteUser(userId);
 
     return user;
   }
