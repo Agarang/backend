@@ -3,6 +3,7 @@ import {
   CreateUserDto,
   CreateUserOutboundPortOutputDto,
 } from 'src/dtos/user/create-user.dto';
+import { DeleteUserOutboundPortOutputDto } from 'src/dtos/user/delete-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
 import {
   UpdateUserEmailOutboundPortOutputDto,
@@ -101,6 +102,14 @@ export class MockUserRepository implements UserRepositoryOutboundPort {
     passwordPair: UpdateUserPasswordInboundPortInputDto,
   ): Promise<OmitProperties<UserEntity, 'password'>> {
     const res = this.result.updatePassword?.pop();
+    if (res === undefined) {
+      throw new Error('undefined');
+    }
+    return res;
+  }
+
+  async deleteUser(userId: number): Promise<DeleteUserOutboundPortOutputDto> {
+    const res = this.result.deleteUser?.pop();
     if (res === undefined) {
       throw new Error('undefined');
     }

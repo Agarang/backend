@@ -20,6 +20,7 @@ import {
   UpdateUserPhoneNumberInboundPortInputDto,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
+import { DeleteUserOutboundPortOutputDto } from 'src/dtos/user/delete-user.dto';
 
 @Controller('/api/v1/user')
 export class UserController {
@@ -108,5 +109,15 @@ export class UserController {
     });
 
     return userInfo;
+  }
+
+  @UseGuards(JwtLocalGuard)
+  @TypedRoute.Delete()
+  async unregister(
+    @User() user: LocalToken,
+  ): Promise<DeleteUserOutboundPortOutputDto> {
+    const deletedUser = await this.userService.unregister(user.id);
+
+    return deletedUser;
   }
 }
