@@ -104,8 +104,7 @@ export class UserController {
     @Body() body: UpdateUserPasswordInboundPortInputDto,
   ): Promise<UpdateUserPasswordOutboundPortOutputDto> {
     const userInfo = await this.userService.modifyPassword(user.id, {
-      password: body.password,
-      passwordConfirm: body.passwordConfirm,
+      ...body,
     });
 
     return userInfo;
