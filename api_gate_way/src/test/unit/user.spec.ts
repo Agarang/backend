@@ -44,7 +44,7 @@ describe('User Spec', () => {
 
       const res = await userController.register(userInfo);
 
-      expect(res).toStrictEqual(userInfo);
+      expect(res.data).toStrictEqual(userInfo);
     });
   });
 
@@ -73,7 +73,7 @@ describe('User Spec', () => {
         },
       );
 
-      expect(res.accessToken).toBeDefined();
+      expect(res.data.accessToken).toBeDefined();
     });
   });
 
@@ -91,7 +91,7 @@ describe('User Spec', () => {
 
       const res = await userController.getOwnUserInfo(user);
 
-      expect(res).toStrictEqual(userInfo);
+      expect(res.data).toStrictEqual(userInfo);
     });
 
     it('3-2. Update User Etc Info', async () => {
@@ -108,7 +108,7 @@ describe('User Spec', () => {
 
       const res = await userController.modifyUserEtcInfo(user, data);
 
-      expect(res).toStrictEqual(userInfo);
+      expect(res.data).toStrictEqual(userInfo);
     });
 
     it('3-3. Update User Phone Number', async () => {
@@ -125,7 +125,7 @@ describe('User Spec', () => {
 
       const res = await userController.modifyPhoneNumber(user, phoneNumber);
 
-      expect(res).toStrictEqual(phoneNumber);
+      expect(res.data).toStrictEqual(phoneNumber);
     });
 
     it('3-4. Update User Nickname', async () => {
@@ -141,7 +141,7 @@ describe('User Spec', () => {
 
       const res = await userController.modifyNickname(user, nickname);
 
-      expect(res).toStrictEqual(nickname);
+      expect(res.data).toStrictEqual(nickname);
     });
 
     it('3-5. Update User Email', async () => {
@@ -157,7 +157,7 @@ describe('User Spec', () => {
 
       const res = await userController.modifyEmail(user, email);
 
-      expect(res).toStrictEqual(email);
+      expect(res.data).toStrictEqual(email);
     });
 
     it('3-6. Update User Password', async () => {
@@ -176,7 +176,7 @@ describe('User Spec', () => {
 
       const res = await userController.modifyPassword(user, passwordPair);
 
-      expect(res).toStrictEqual(userInfo);
+      expect(res.data).toStrictEqual(userInfo);
     });
   });
 
@@ -194,7 +194,7 @@ describe('User Spec', () => {
 
       const res = await userController.unregister(user);
 
-      expect(res).toStrictEqual(deletedUser);
+      expect(res.data).toStrictEqual(deletedUser);
     });
   });
 });
