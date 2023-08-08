@@ -6,6 +6,10 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { IAccessTokenReturn, LocalToken } from 'src/dtos/auth/local-token.dto';
 import { LogInUserDto } from 'src/dtos/user/login-user.dto';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
+import {
+  ResponseForm,
+  responseForm,
+} from 'src/middlewares/interceptors/transform.interceptor';
 
 @Controller('/api/v1/auth')
 export class AuthController {
@@ -16,9 +20,9 @@ export class AuthController {
   async localSignIn(
     @User() user: FindUserInfoOutboundPortOutputDto,
     @TypedBody() body: LogInUserDto,
-  ): Promise<IAccessTokenReturn> {
+  ): Promise<ResponseForm<IAccessTokenReturn>> {
     const token = await this.authService.issueTokenForLocalSignIn(user);
 
-    return token;
+    return responseForm(token);
   }
 }
