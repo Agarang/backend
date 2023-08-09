@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@nestia/core": "^1.4.4",
+    "@nestjs/azure-storage": "^3.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.2",
     "@nestjs/core": "^9.0.0",
