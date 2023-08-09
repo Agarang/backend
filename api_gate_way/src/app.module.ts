@@ -4,9 +4,18 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './middlewares/filters/http-exception.filter';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { AuthModule } from './auth/auth.module';
+import { PhotoModule } from './domain/photo/photo.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UserModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    UserModule,
+    AuthModule,
+    PhotoModule,
+  ],
   controllers: [],
   providers: [
     {
