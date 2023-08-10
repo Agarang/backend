@@ -6,6 +6,8 @@ import { PhotoRepository } from 'src/ports-adapters/photo/photo.repository';
 import { PHOTO_REPOSITORY_OUTBOUND_PORT } from 'src/ports-adapters/photo/photo.repository.outbound-port';
 import { AzureStorageModule } from '@nestjs/azure-storage';
 import { ConfigService } from '@nestjs/config';
+import { AZURE_STORAGE_OUTBOUND_PORT } from 'src/ports-adapters/azure/storage/azure.storage.outbound-port';
+import { AzureStorage } from 'src/ports-adapters/azure/storage/azure.storage';
 
 @Module({
   imports: [
@@ -26,6 +28,10 @@ import { ConfigService } from '@nestjs/config';
     {
       provide: PHOTO_REPOSITORY_OUTBOUND_PORT,
       useClass: PhotoRepository,
+    },
+    {
+      provide: AZURE_STORAGE_OUTBOUND_PORT,
+      useClass: AzureStorage,
     },
     PhotoService,
   ],
