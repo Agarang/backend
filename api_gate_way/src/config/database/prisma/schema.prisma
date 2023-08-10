@@ -20,7 +20,7 @@ model User {
   fetusNickname   String @default("아기")
   height          Int?
   weight          Int?
-  profilePhotoUrl String?
+  profilePhotoUrl String? @db.VarChar(521)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime? @updatedAt
   deletedAt       DateTime?
@@ -31,7 +31,7 @@ model User {
 
 model ProfilePhoto {
   id Int @id @default(autoincrement())
-  url String @unique()
+  url String @db.VarChar(521) @unique()
   
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
@@ -43,7 +43,7 @@ model ProfilePhoto {
 
 model PhotoAboutGeneration {
   id Int @id @default(autoincrement())
-  url String @unique()
+  url String @db.VarChar(521) @unique()
   
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
