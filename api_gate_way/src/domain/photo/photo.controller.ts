@@ -16,11 +16,25 @@ import {
 import { UploadPhotoOutboundPortOutputDto } from 'src/dtos/photo/upload-profile-photo.dto';
 import { User } from 'src/middlewares/decorators/user.decorator';
 import { LocalToken } from 'src/dtos/auth/local-token.dto';
+import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 @Controller('/api/v1/photo')
 export class PhotoController {
   constructor(private readonly photoService: PhotoService) {}
 
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        profile: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @UseGuards(JwtLocalGuard)
   @UseInterceptors(FileInterceptor('profile'))
   @TypedRoute.Put('profile')
