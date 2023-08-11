@@ -21,4 +21,15 @@ export class MockPhotoRepository implements PhotoRepositoryOutboundPort {
     }
     return res;
   }
+
+  async insertFetusPhotoUrl(
+    url: string,
+    userId: number,
+  ): Promise<UploadPhotoOutboundPortOutputDto> {
+    const res = this.result.insertFetusPhotoUrl?.pop();
+    if (res === undefined) {
+      throw new Error('undefined');
+    }
+    return res;
+  }
 }
