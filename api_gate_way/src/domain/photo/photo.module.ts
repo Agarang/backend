@@ -8,6 +8,8 @@ import { AzureStorageModule } from '@nestjs/azure-storage';
 import { ConfigService } from '@nestjs/config';
 import { AZURE_STORAGE_OUTBOUND_PORT } from 'src/ports-adapters/azure/storage/azure.storage.outbound-port';
 import { AzureStorage } from 'src/ports-adapters/azure/storage/azure.storage';
+import { GENERATE_FETUS_GRPC_OUTBOUND_PORT } from 'src/ports-adapters/photo/generate-fetus/generate-fetus.grpc.outbound-port';
+import { GenerateFetusGRPC } from 'src/ports-adapters/photo/generate-fetus/generate-fetus.grpc';
 
 @Module({
   imports: [
@@ -32,6 +34,10 @@ import { AzureStorage } from 'src/ports-adapters/azure/storage/azure.storage';
     {
       provide: AZURE_STORAGE_OUTBOUND_PORT,
       useClass: AzureStorage,
+    },
+    {
+      provide: GENERATE_FETUS_GRPC_OUTBOUND_PORT,
+      useClass: GenerateFetusGRPC,
     },
     PhotoService,
   ],

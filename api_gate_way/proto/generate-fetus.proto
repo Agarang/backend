@@ -1,0 +1,16 @@
+syntax = 'proto3';
+
+package generate_fetus;
+
+message GenerateFetusGRPCOutboundPortInputDto {
+    string url = 1;
+}
+
+message GenerateFetusGRPCOutboundPortOutputDto {
+    string url = 1;
+}
+
+service GenerateFetusService {
+    rpc generateFetusImage (GenerateFetusGRPCOutboundPortInputDto) returns (GenerateFetusGRPCOutboundPortOutputDto);
+}
+

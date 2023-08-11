@@ -8,4 +8,9 @@ export interface PhotoRepositoryOutboundPort {
     url: string,
     userId: number,
   ): Promise<UploadPhotoOutboundPortOutputDto>;
+
+  insertFetusPhotoUrl(
+    url: string,
+    userId: number,
+  ): Promise<UploadPhotoOutboundPortOutputDto>;
 }

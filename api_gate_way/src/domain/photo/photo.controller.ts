@@ -22,6 +22,21 @@ import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 export class PhotoController {
   constructor(private readonly photoService: PhotoService) {}
 
+  @UseGuards(JwtLocalGuard)
+  @UseInterceptors(FileInterceptor('fetus'))
+  @TypedRoute.Post('fetus')
+  async createFetusPhoto(
+    @UploadedFile() fetus: UploadedFileMetadata,
+    @User() user: LocalToken,
+  ): Promise<ResponseForm<UploadPhotoOutboundPortOutputDto>> {
+    const storageUrl = await this.photoService.generateFetusPhoto(
+      fetus,
+      user.id,
+    );
+
+    return responseForm(storageUrl);
+  }
+
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
   @ApiBody({
