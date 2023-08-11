@@ -28,7 +28,6 @@ import {
   UpdateUserPasswordOutboundPortOutputDtoForSelect,
   UpdateUserPhoneNumberOutboundPortOutputDto,
 } from 'src/dtos/user/update-user.dto';
-import { OmitProperties } from 'src/utils/types/omit.type';
 import {
   DeleteUserOutboundPortOutputDto,
   DeleteUserOutboundPortOutputDtoForSelect,
@@ -41,7 +40,11 @@ export class UserRepository implements UserRepositoryOutboundPort {
   async insertUser(
     userInfo: CreateUserDto,
   ): Promise<CreateUserOutboundPortOutputDto> {
-    const { password, ...data } = userInfo;
+    const { password, passwordConfirm, ...data } = userInfo;
+    if (password !== passwordConfirm) {
+      throw new BadRequestException('비밀번호와 비밀번호 확인이 다릅니다.');
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.prisma.user.create({
