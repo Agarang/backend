@@ -42,7 +42,10 @@ describe('User Spec', () => {
 
       const userController = new UserController(userService);
 
-      const res = await userController.register(userInfo);
+      const res = await userController.register({
+        ...userInfo,
+        passwordConfirm: userInfo.password,
+      });
 
       expect(res.data).toStrictEqual(userInfo);
     });
