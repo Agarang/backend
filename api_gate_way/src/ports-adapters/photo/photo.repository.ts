@@ -17,4 +17,16 @@ export class PhotoRepository implements PhotoRepositoryOutboundPort {
 
     return storageUrl;
   }
+
+  async insertFetusPhotoUrl(
+    url: string,
+    userId: number,
+  ): Promise<UploadPhotoOutboundPortOutputDto> {
+    const storageUrl = await this.prisma.photoAboutGeneration.create({
+      data: { url, userId },
+      select: { url: true },
+    });
+
+    return storageUrl;
+  }
 }
