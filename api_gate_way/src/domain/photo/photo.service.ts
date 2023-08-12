@@ -64,12 +64,7 @@ export class PhotoService {
     profile: UploadedFileMetadata,
     userId: number,
   ): Promise<UploadPhotoOutboundPortOutputDto> {
-    const { originalname, ...profileInfo } = profile;
-
-    const modifiedProfile = {
-      ...profileInfo,
-      originalname: `profile-${originalname}-${new Date().toISOString()}`,
-    };
+    const modifiedProfile = modifyFileName(profile, 'profile');
 
     const url = await this.azureStorage.uploadPhoto(modifiedProfile);
 
