@@ -33,6 +33,7 @@ describe('Photo Spec', () => {
       const res = await photoController.uploadProfilePhoto(
         {
           ...profile,
+          originalname: 'temp.png',
           buffer: Buffer.alloc(1),
         },
         user,
