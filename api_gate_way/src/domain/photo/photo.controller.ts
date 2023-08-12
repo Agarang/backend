@@ -22,6 +22,19 @@ import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 export class PhotoController {
   constructor(private readonly photoService: PhotoService) {}
 
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        profile: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @UseGuards(JwtLocalGuard)
   @UseInterceptors(FileInterceptor('fetus'))
   @TypedRoute.Post('fetus')
