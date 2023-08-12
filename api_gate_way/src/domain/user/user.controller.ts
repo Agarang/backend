@@ -30,6 +30,11 @@ import {
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  /**
+   *
+   * @tag user
+   * @summary 유저 회원가입
+   */
   @TypedRoute.Post('sign-up')
   async register(
     @TypedBody() userInfo: CreateUserDto,
@@ -39,6 +44,12 @@ export class UserController {
     return responseForm(user);
   }
 
+  /**
+   *
+   * @tag user
+   * @summary 본인 정보 확인
+   * @security bearer
+   */
   @UseGuards(JwtLocalGuard)
   @TypedRoute.Get('info')
   async getOwnUserInfo(
@@ -51,6 +62,12 @@ export class UserController {
     return responseForm(userInfo);
   }
 
+  /**
+   *
+   * @tag user
+   * @summary 본인 정보 수정(이메일, 닉네임, 휴대폰 번호, 비밀번호 제외)
+   * @security bearer
+   */
   @UseGuards(JwtLocalGuard)
   @TypedRoute.Put('info')
   async modifyUserEtcInfo(
@@ -62,6 +79,12 @@ export class UserController {
     return responseForm(userInfo);
   }
 
+  /**
+   *
+   * @tag user
+   * @summary 휴대폰 번호 변경
+   * @security bearer
+   */
   @UseGuards(JwtLocalGuard)
   @TypedRoute.Put('phone-number')
   async modifyPhoneNumber(
@@ -76,6 +99,12 @@ export class UserController {
     return responseForm(phoneNumber);
   }
 
+  /**
+   *
+   * @tag user
+   * @summary 닉네임 변경
+   * @security bearer
+   */
   @UseGuards(JwtLocalGuard)
   @TypedRoute.Put('nickname')
   async modifyNickname(
@@ -90,6 +119,12 @@ export class UserController {
     return responseForm(nickname);
   }
 
+  /**
+   *
+   * @tag user
+   * @summary 이메일 변경
+   * @security bearer
+   */
   @UseGuards(JwtLocalGuard)
   @TypedRoute.Put('email')
   async modifyEmail(
@@ -101,6 +136,12 @@ export class UserController {
     return responseForm(email);
   }
 
+  /**
+   *
+   * @tag user
+   * @summary 비밀번호 변경
+   * @security bearer
+   */
   @UseGuards(JwtLocalGuard)
   @TypedRoute.Put('password')
   async modifyPassword(
@@ -114,6 +155,12 @@ export class UserController {
     return responseForm(userInfo);
   }
 
+  /**
+   *
+   * @tag user
+   * @summary 회원 탈퇴
+   * @security bearer
+   */
   @UseGuards(JwtLocalGuard)
   @TypedRoute.Delete()
   async unregister(
