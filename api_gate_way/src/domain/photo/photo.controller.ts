@@ -22,6 +22,12 @@ import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 export class PhotoController {
   constructor(private readonly photoService: PhotoService) {}
 
+  /**
+   *
+   * @tag photo
+   * @summary 태아 사진 생성
+   * @security bearer
+   */
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -50,6 +56,12 @@ export class PhotoController {
     return responseForm(storageUrl);
   }
 
+  /**
+   *
+   * @tag photo
+   * @summary 프로필 사진 수정
+   * @security bearer
+   */
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
   @ApiBody({
