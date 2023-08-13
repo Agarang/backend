@@ -39,3 +39,7 @@ lerna-debug.log*
 
 # swagger
 swagger.json
+
+# sdk
+packages
+src/api
