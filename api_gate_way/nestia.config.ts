@@ -5,6 +5,7 @@ dotenv.config();
 export const config: INestiaConfig = {
   input: 'src/**/*.controller.ts',
   output: 'src/api',
+  distribute: 'packages',
 
   swagger: {
     output: 'swagger.json',
