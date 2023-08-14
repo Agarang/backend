@@ -1,5 +1,8 @@
 import { GenerateFetusGRPCOutboundPort } from 'src/ports-adapters/photo/generate-fetus/generate-fetus.grpc.outbound-port';
-import { GenerateFetusGRPCOutboundPortOutputDto } from 'src/ports-adapters/photo/generate-fetus/interface/generate-fetus.proto';
+import {
+  GenerateFetusGRPCOutboundPortInputDto,
+  GenerateFetusGRPCOutboundPortOutputDto,
+} from 'src/ports-adapters/photo/generate-fetus/interface/generate-fetus.proto';
 import { MockParamTypeForTest } from 'src/utils/types/mock-param-type-for-test.type';
 
 type MockGenerateFetusGRPCParamType =
@@ -12,7 +15,7 @@ export class MockGenerateFetusGRPC implements GenerateFetusGRPCOutboundPort {
     this.result = result;
   }
   async generateFetusImage(
-    url: string,
+    params: GenerateFetusGRPCOutboundPortInputDto,
   ): Promise<GenerateFetusGRPCOutboundPortOutputDto> {
     const res = this.result.generateFetusImage?.pop();
     if (res === undefined) {

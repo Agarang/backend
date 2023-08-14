@@ -3,6 +3,7 @@ import { GenerateFetusGRPCOutboundPort } from './generate-fetus.grpc.outbound-po
 import { Client, ClientGrpc } from '@nestjs/microservices';
 import { GENERATE_FETUS_GRPC_OPTION } from './options/generate-fetus.grpc-option';
 import {
+  GenerateFetusGRPCOutboundPortInputDto,
   GenerateFetusGRPCOutboundPortOutputDto,
   IGenerateFetusService,
 } from './interface/generate-fetus.proto';
@@ -11,8 +12,6 @@ import {
 export class GenerateFetusGRPC
   implements GenerateFetusGRPCOutboundPort, OnModuleInit
 {
-  constructor() {}
-
   @Client(GENERATE_FETUS_GRPC_OPTION)
   private readonly generateFetusClient: ClientGrpc;
 
@@ -26,11 +25,11 @@ export class GenerateFetusGRPC
   }
 
   async generateFetusImage(
-    url: string,
+    params: GenerateFetusGRPCOutboundPortInputDto,
   ): Promise<GenerateFetusGRPCOutboundPortOutputDto> {
     const res: GenerateFetusGRPCOutboundPortOutputDto =
       await this.generateFetusService.generateFetusImage({
-        url,
+        ...params,
       });
 
     return res;

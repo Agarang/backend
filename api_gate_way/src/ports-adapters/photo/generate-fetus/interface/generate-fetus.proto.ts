@@ -1,5 +1,7 @@
 export interface GenerateFetusGRPCOutboundPortInputDto {
   url: string;
+  filename: string;
+  ext: string;
 }
 
 export interface GenerateFetusGRPCOutboundPortOutputDto {
