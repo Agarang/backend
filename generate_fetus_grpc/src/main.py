@@ -5,6 +5,7 @@ import os
 from src.interface.proto import generate_fetus_pb2_grpc
 from src.services import generate_fetus_service
 
+
 load_dotenv()
 
 
