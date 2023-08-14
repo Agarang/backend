@@ -13,7 +13,7 @@ export function modifyFileName(
   }
 
   // 확장자명
-  const ext = splitedFileNameArray.slice(-1);
+  const ext = splitedFileNameArray.slice(-1).toString();
 
   const title = splitedFileNameArray.slice(0, -1).join('.');
 

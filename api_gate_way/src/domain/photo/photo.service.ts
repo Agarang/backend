@@ -45,7 +45,11 @@ export class PhotoService {
 
     // 3. 해당 입체 초음파 사진의 url을 gRPC서버에 전달
     const generatedFetusImageUrl =
-      await this.generateFetusGrpc.generateFetusImage(storedOriginPhotoUrl.url);
+      await this.generateFetusGrpc.generateFetusImage({
+        url: storedOriginPhotoUrl.url,
+        filename: fetus.originalname,
+        ext: modifiedFile.originalname.split('.').slice(-1).toString(),
+      });
 
     // 4. gRPC 서버에서 생후 사진 생성 후, Azure blob storage에 저장
 

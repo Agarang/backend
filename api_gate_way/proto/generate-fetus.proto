@@ -4,6 +4,8 @@ package generate_fetus;
 
 message GenerateFetusGRPCOutboundPortInputDto {
     string url = 1;
+    string filename = 2;
+    string ext = 3;
 }
 
 message GenerateFetusGRPCOutboundPortOutputDto {
