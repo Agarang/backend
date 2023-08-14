@@ -42,7 +42,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "swagger-ui-express": "^5.0.0",
-    "typia": "^4.1.8"
+    "typia": "^4.1.8",
+    "ts-patch": "^3.0.2"
   },
   "devDependencies": {
     "@nestia/e2e": "^0.3.6",
@@ -72,7 +73,6 @@
     "ts-jest": "28.0.8",
     "ts-loader": "^9.2.3",
     "ts-node": "^10.9.1",
-    "ts-patch": "^3.0.2",
     "tsconfig-paths": "4.1.0",
     "typescript": "^5.1.6"
   },
