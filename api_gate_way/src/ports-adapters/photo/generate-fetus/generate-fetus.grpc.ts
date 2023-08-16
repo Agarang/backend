@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { GenerateFetusGRPCOutboundPort } from './generate-fetus.grpc.outbound-port';
-import { Client, ClientGrpc } from '@nestjs/microservices';
+import { Client, ClientGrpc, RpcException } from '@nestjs/microservices';
 import { GENERATE_FETUS_GRPC_OPTION } from './options/generate-fetus.grpc-option';
 import {
   GenerateFetusGRPCOutboundPortInputDto,
@@ -28,15 +28,19 @@ export class GenerateFetusGRPC
   async generateFetusImage(
     params: GenerateFetusGRPCOutboundPortInputDto,
   ): Promise<GenerateFetusGRPCOutboundPortOutputDto> {
-    const res = this.generateFetusService.generateFetusImage({
-      ...params,
-    });
+    try {
+      const res = this.generateFetusService.generateFetusImage({
+        ...params,
+      });
 
-    const a = await lastValueFrom(res);
+      const a = await lastValueFrom(res);
 
-    console.log('aaaaaaaaaaaa');
-    console.log(a);
+      console.log('aaaaaaaaaaaa');
+      console.log(a);
 
-    return a;
+      return a;
+    } catch (err) {
+      throw new RpcException('RPC 통신 오류');
+    }
   }
 }
