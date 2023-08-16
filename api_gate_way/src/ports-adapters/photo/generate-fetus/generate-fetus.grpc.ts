@@ -7,6 +7,7 @@ import {
   GenerateFetusGRPCOutboundPortOutputDto,
   IGenerateFetusService,
 } from './interface/generate-fetus.proto';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class GenerateFetusGRPC
@@ -27,11 +28,15 @@ export class GenerateFetusGRPC
   async generateFetusImage(
     params: GenerateFetusGRPCOutboundPortInputDto,
   ): Promise<GenerateFetusGRPCOutboundPortOutputDto> {
-    const res: GenerateFetusGRPCOutboundPortOutputDto =
-      await this.generateFetusService.generateFetusImage({
-        ...params,
-      });
+    const res = this.generateFetusService.generateFetusImage({
+      ...params,
+    });
 
-    return res;
+    const a = await lastValueFrom(res);
+
+    console.log('aaaaaaaaaaaa');
+    console.log(a);
+
+    return a;
   }
 }

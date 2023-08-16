@@ -34,7 +34,7 @@ export class PhotoController {
     schema: {
       type: 'object',
       properties: {
-        profile: {
+        fetus: {
           type: 'string',
           format: 'binary',
         },
