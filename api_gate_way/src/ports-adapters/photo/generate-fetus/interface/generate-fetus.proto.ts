@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 export interface GenerateFetusGRPCOutboundPortInputDto {
   url: string;
   filename: string;
@@ -11,5 +13,5 @@ export interface GenerateFetusGRPCOutboundPortOutputDto {
 export interface IGenerateFetusService {
   generateFetusImage(
     params: GenerateFetusGRPCOutboundPortInputDto,
-  ): Promise<GenerateFetusGRPCOutboundPortOutputDto>;
+  ): Observable<GenerateFetusGRPCOutboundPortOutputDto>;
 }

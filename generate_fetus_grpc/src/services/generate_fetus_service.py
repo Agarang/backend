@@ -3,9 +3,18 @@ import requests
 import numpy as np
 import cv2
 from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from azure.storage.blob import (
+    BlobServiceClient,
+    BlobClient,
+    ContainerClient,
+    ContentSettings,
+)
 import os
 from datetime import datetime
+from src.interface.proto.generate_fetus_pb2 import (
+    GenerateFetusGRPCOutboundPortOutputDto,
+)
+from urllib import parse
 
 
 class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
@@ -22,12 +31,6 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
 
         self.container_name = os.environ.get("AZURE_BLOB_STORAGE_CONTAINER")
 
-        blob_client = self.blob_storage.get_blob_client(
-            container=self.container_name, blob="temp.png"
-        )
-
-        # blob_client.upload_blob(res.content)
-
         # print("complete")
 
         # print("Model Setting...")
@@ -42,20 +45,22 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
 
         blob_client = self.blob_storage.get_blob_client(
             container=self.container_name,
-            blob=f"generated-fetus-{filename}-{datetime.now().isoformat()}.{ext}",
+            blob=f"generated-fetus-{parse.quote(filename)}-{datetime.now().isoformat()}.{ext}",
         )
 
         res = requests.get(url)
 
         img = res.content
-        img = np.frombuffer(res.content, dtype=np.uint8)
-        img = cv2.imdecode(img, cv2.IMREAD_COLOR)
+        # img = np.frombuffer(res.content, dtype=np.uint8)
+        # img = cv2.imdecode(img, cv2.IMREAD_COLOR)
 
-        img = cv2.resize(img, (32, 32))
+        # img = cv2.resize(img, (32, 32))
 
-        generated_img = self.model.predict(img)
+        # generated_img = self.model.predict(img)
 
         # 생성된 이미지를 Azure blob storage에 저장
-        # blob_client.upload_blob(img)
+        blob_client.upload_blob(img)
 
-        # return GenerateFetusGRPCOutboundPortOutputDto(url)
+        url = blob_client.primary_endpoint
+
+        return GenerateFetusGRPCOutboundPortOutputDto(url=url)

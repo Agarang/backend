@@ -19,7 +19,9 @@ export function modifyFileName(
 
   const modifiedFile = {
     ...fileInfo,
-    originalname: `${modifiedFileName}-${title}-${new Date().toISOString()}.${ext}`,
+    originalname: `${modifiedFileName}-${encodeURI(
+      title,
+    )}-${new Date().toISOString()}.${ext}`,
   };
 
   return modifiedFile;

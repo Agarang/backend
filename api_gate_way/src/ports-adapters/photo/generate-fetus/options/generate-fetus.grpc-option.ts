@@ -4,7 +4,7 @@ import * as path from 'path';
 export const GENERATE_FETUS_GRPC_OPTION: ClientOptions = {
   transport: Transport.GRPC,
   options: {
-    url: 'generate_fetus_grpc_server:50051',
+    url: '127.0.0.1:50051',
     package: 'generate_fetus',
     protoPath: path.join(
       __dirname,
