@@ -6,7 +6,7 @@ services:
       context: ./generate_fetus_grpc
       dockerfile: Dockerfile
     expose:
-      - "50051"
+      - ${GENERATE_FETUS_GRPC_PORT}
     env_file:
       - ./generate_fetus_grpc/.env
     container_name: generate_fetus_grpc_server
@@ -17,7 +17,7 @@ services:
       context: ./api_gate_way
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - ${NEST_PORT}:${NEST_PORT}
     env_file:
       - ./api_gate_way/.env
     depends_on:
