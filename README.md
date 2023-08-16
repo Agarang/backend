@@ -1,3 +1,9 @@
+## First
+
+---
+
+- you should set `.env` file
+
 ## Install
 
 ---
