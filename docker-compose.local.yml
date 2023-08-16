@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  generate_fetus_grpc_server:
+    build:
+      context: ./generate_fetus_grpc
+      dockerfile: Dockerfile
+    expose:
+      - ${GENERATE_FETUS_GRPC_PORT}
+    env_file:
+      - ./generate_fetus_grpc/.env
+    container_name: generate_fetus_grpc_server
+    command: python3 src/main.py
+
+  api_gateway_server:
+    build:
+      context: ./api_gate_way
+      dockerfile: Dockerfile
+    ports:
+      - ${NEST_PORT}:${NEST_PORT}
+    env_file:
+      - ./api_gate_way/.env
+    depends_on:
+      - generate_fetus_grpc_server
+    container_name: api_gateway_server
+    command: npm run start:prod
