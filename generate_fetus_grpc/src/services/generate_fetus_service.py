@@ -63,4 +63,6 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
 
         url = blob_client.primary_endpoint
 
+        url = url.split("?")[0]
+
         return GenerateFetusGRPCOutboundPortOutputDto(url=url)
