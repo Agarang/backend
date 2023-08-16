@@ -28,5 +28,3 @@ COPY --from=builder /app/dist ./dist
 RUN npm install --force --omit=dev && npx prisma generate
 
 # env는 제외
-
-CMD ["npm", "run", "start:prod"]
