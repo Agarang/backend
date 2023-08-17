@@ -1,3 +1,6 @@
+import pickle
+
+import torch
 from src.interface.proto import generate_fetus_pb2_grpc
 import requests
 import numpy as np
@@ -31,9 +34,30 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
 
         self.container_name = os.environ.get("AZURE_BLOB_STORAGE_CONTAINER")
 
-        # print("complete")
+        print("Store Setting complete")
 
-        # print("Model Setting...")
+        print(torch.cuda.is_available())
+
+        print()
+
+        print("Model Setting...")
+
+        self.dirname = os.path.dirname(__file__)
+
+        print()
+        print("Import weights...")
+        with open(
+            os.path.join(
+                self.dirname, "../models/stylegan3/weights/network-snapshot-000001.pkl"
+            ),
+            "rb",
+        ) as f:
+            self.G = pickle.load(f)["G_ema"].cuda()
+
+        self.c = None
+
+        print("Model Setting Complete")
+
         # self.model = Model()
         # self.model.setup()
         # self.dirname = os.path.dirname(__file__)
@@ -51,6 +75,9 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         res = requests.get(url)
 
         img = res.content
+
+        z = torch.randn([1, self.G.z_dim]).cuda()
+        img = self.G(z, self.c)
         # img = np.frombuffer(res.content, dtype=np.uint8)
         # img = cv2.imdecode(img, cv2.IMREAD_COLOR)
 
