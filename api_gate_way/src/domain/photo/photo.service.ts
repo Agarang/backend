@@ -13,6 +13,10 @@ import {
   PHOTO_REPOSITORY_OUTBOUND_PORT,
   PhotoRepositoryOutboundPort,
 } from 'src/ports-adapters/photo/photo.repository.outbound-port';
+import {
+  USER_REPOSITORY_OUTBOUND_PORT,
+  UserRepositoryOutboundPort,
+} from 'src/ports-adapters/user/user.repository.outbound-port';
 import { modifyFileName } from 'src/utils/functions/modify-file-name.function';
 
 @Injectable()
@@ -20,6 +24,9 @@ export class PhotoService {
   constructor(
     @Inject(PHOTO_REPOSITORY_OUTBOUND_PORT)
     private readonly photoRepository: PhotoRepositoryOutboundPort,
+
+    @Inject(USER_REPOSITORY_OUTBOUND_PORT)
+    private readonly userRepository: UserRepositoryOutboundPort,
 
     @Inject(AZURE_STORAGE_OUTBOUND_PORT)
     private readonly azureStorage: AzureStorageOutboundPort,
@@ -77,6 +84,11 @@ export class PhotoService {
       url.url,
       userId,
     );
+
+    // 저장한 url을 User의 profileUrl에 저장
+    const user = await this.userRepository.updateUserInfo(userId, {
+      profilePhotoUrl: storageUrl.url,
+    });
 
     return storageUrl;
   }
