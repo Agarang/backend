@@ -16,11 +16,24 @@ services:
     build:
       context: ./api_gate_way
       dockerfile: Dockerfile
-    ports:
-      - ${NEST_PORT}:${NEST_PORT}
+    expose:
+      - ${NEST_PORT}
     env_file:
       - ./api_gate_way/.env
     depends_on:
       - generate_fetus_grpc_server
+      - nginx_server
     container_name: api_gateway_server
     command: npm run start:prod
+
+  nginx_server:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    environment:
+      - NEST_PORT=${NEST_PORT}
+    container_name: nginx_server
+    restart: unless-stopped
+    command: nginx -g 'daemon off;'
