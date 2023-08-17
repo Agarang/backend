@@ -51,8 +51,6 @@ export class PhotoService {
         ext: modifiedFile.originalname.split('.').slice(-1).toString(),
       });
 
-    console.log(generatedFetusImageUrl);
-
     // 4. gRPC 서버에서 생후 사진 생성 후, Azure blob storage에 저장
 
     // 5. 그리고 gRPC서버에서는 생후 사진을 저장한 url을 nest.js서버로 전달
