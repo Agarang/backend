@@ -10,6 +10,8 @@ import { AZURE_STORAGE_OUTBOUND_PORT } from 'src/ports-adapters/azure/storage/az
 import { AzureStorage } from 'src/ports-adapters/azure/storage/azure.storage';
 import { GENERATE_FETUS_GRPC_OUTBOUND_PORT } from 'src/ports-adapters/photo/generate-fetus/generate-fetus.grpc.outbound-port';
 import { GenerateFetusGRPC } from 'src/ports-adapters/photo/generate-fetus/generate-fetus.grpc';
+import { USER_REPOSITORY_OUTBOUND_PORT } from 'src/ports-adapters/user/user.repository.outbound-port';
+import { UserRepository } from 'src/ports-adapters/user/user.repository';
 
 @Module({
   imports: [
@@ -30,6 +32,10 @@ import { GenerateFetusGRPC } from 'src/ports-adapters/photo/generate-fetus/gener
     {
       provide: PHOTO_REPOSITORY_OUTBOUND_PORT,
       useClass: PhotoRepository,
+    },
+    {
+      provide: USER_REPOSITORY_OUTBOUND_PORT,
+      useClass: UserRepository,
     },
     {
       provide: AZURE_STORAGE_OUTBOUND_PORT,

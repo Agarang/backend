@@ -12,11 +12,13 @@ export class AzureStorage implements AzureStorageOutboundPort {
   async uploadPhoto(
     modifiedProfile: UploadedFileMetadata,
   ): Promise<UploadPhotoOutboundPortOutputDto> {
-    const url = await this.azureStorage.upload(modifiedProfile);
+    const sasUrl = await this.azureStorage.upload(modifiedProfile);
 
-    if (!url) {
+    if (!sasUrl) {
       throw new ConflictException('이미지가 저장되지 않았습니다.');
     }
+
+    const url = sasUrl.split('?')[0];
 
     return { url };
   }

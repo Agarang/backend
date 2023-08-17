@@ -7,6 +7,7 @@ import { UploadPhotoOutboundPortOutputDto } from 'src/dtos/photo/upload-profile-
 import { PhotoController } from 'src/domain/photo/photo.controller';
 import { UploadedFileMetadata } from '@nestjs/azure-storage';
 import { MockGenerateFetusGRPC } from './mock/generate-fetus.grpc.mock';
+import { MockUserRepository } from './mock/user.repository.mock';
 
 describe('Photo Spec', () => {
   let user: LocalToken;
@@ -24,6 +25,7 @@ describe('Photo Spec', () => {
         new MockPhotoRepository({
           insertProfilePhotoUrl: [url],
         }),
+        new MockUserRepository({}),
         new MockAzureStorage({ uploadPhoto: [url] }),
         new MockGenerateFetusGRPC({}),
       );
@@ -52,6 +54,7 @@ describe('Photo Spec', () => {
         new MockPhotoRepository({
           insertFetusPhotoUrl: [url, url],
         }),
+        new MockUserRepository({}),
         new MockAzureStorage({ uploadPhoto: [url] }),
         new MockGenerateFetusGRPC({
           generateFetusImage: [url],

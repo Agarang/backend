@@ -13,6 +13,10 @@ import {
   PHOTO_REPOSITORY_OUTBOUND_PORT,
   PhotoRepositoryOutboundPort,
 } from 'src/ports-adapters/photo/photo.repository.outbound-port';
+import {
+  USER_REPOSITORY_OUTBOUND_PORT,
+  UserRepositoryOutboundPort,
+} from 'src/ports-adapters/user/user.repository.outbound-port';
 import { modifyFileName } from 'src/utils/functions/modify-file-name.function';
 
 @Injectable()
@@ -20,6 +24,9 @@ export class PhotoService {
   constructor(
     @Inject(PHOTO_REPOSITORY_OUTBOUND_PORT)
     private readonly photoRepository: PhotoRepositoryOutboundPort,
+
+    @Inject(USER_REPOSITORY_OUTBOUND_PORT)
+    private readonly userRepository: UserRepositoryOutboundPort,
 
     @Inject(AZURE_STORAGE_OUTBOUND_PORT)
     private readonly azureStorage: AzureStorageOutboundPort,
@@ -51,8 +58,6 @@ export class PhotoService {
         ext: modifiedFile.originalname.split('.').slice(-1).toString(),
       });
 
-    console.log(generatedFetusImageUrl);
-
     // 4. gRPC 서버에서 생후 사진 생성 후, Azure blob storage에 저장
 
     // 5. 그리고 gRPC서버에서는 생후 사진을 저장한 url을 nest.js서버로 전달
@@ -79,6 +84,11 @@ export class PhotoService {
       url.url,
       userId,
     );
+
+    // 저장한 url을 User의 profileUrl에 저장
+    const user = await this.userRepository.updateUserInfo(userId, {
+      profilePhotoUrl: storageUrl.url,
+    });
 
     return storageUrl;
   }
