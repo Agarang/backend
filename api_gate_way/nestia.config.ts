@@ -11,6 +11,9 @@ export const config: INestiaConfig = {
     output: 'swagger.json',
     servers: [
       {
+        url: `http://localhost:80`,
+      },
+      {
         url: `http://localhost:${process.env.NEST_PORT}`,
         description: 'localhost',
       },
