@@ -40,6 +40,7 @@ export class GenerateFetusGRPC
 
       return a;
     } catch (err) {
+      console.log(err);
       throw new RpcException('RPC 통신 오류');
     }
   }

@@ -54,7 +54,7 @@ export class PhotoService {
     const generatedFetusImageUrl =
       await this.generateFetusGrpc.generateFetusImage({
         url: storedOriginPhotoUrl.url,
-        filename: fetus.originalname,
+        filename: fetus.originalname.split('.').slice(0, -1).toString(),
         ext: modifiedFile.originalname.split('.').slice(-1).toString(),
       });
 
