@@ -4,7 +4,10 @@ from dotenv import load_dotenv
 import os
 from src.interface.proto import generate_fetus_pb2_grpc
 from src.services import generate_fetus_service
+import sys
 
+
+sys.path.append(os.path.join(os.getcwd(), "src/models/stylegan3"))
 
 load_dotenv()
 
