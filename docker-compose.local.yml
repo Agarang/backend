@@ -5,6 +5,14 @@ services:
     build:
       context: ./generate_fetus_grpc
       dockerfile: Dockerfile
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities:
+                - gpu
     expose:
       - ${GENERATE_FETUS_GRPC_PORT}
     env_file:
