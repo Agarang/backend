@@ -16,22 +16,22 @@ services:
     expose:
       - ${GENERATE_FETUS_GRPC_PORT}
     env_file:
-      - ./generate_fetus_grpc/.env
+      - ./.env.generate_fetus_grpc
     container_name: generate_fetus_grpc_server
     command: python3 src/main.py
 
-  api_gateway_server:
+  api_gate_way_server:
     build:
       context: ./api_gate_way
       dockerfile: Dockerfile
     expose:
       - ${NEST_PORT}
     env_file:
-      - ./api_gate_way/.env
+      - ./.env.api_gate_way
     depends_on:
       - generate_fetus_grpc_server
       - nginx_server
-    container_name: api_gateway_server
+    container_name: api_gate_way_server
     command: npm run start:prod
 
   nginx_server:
