@@ -6,6 +6,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { PhotoModule } from './domain/photo/photo.module';
 import { ConfigModule } from '@nestjs/config';
+import { ChatbotModule } from './domain/chatbot/chatbot.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
     UserModule,
     AuthModule,
     PhotoModule,
+    ChatbotModule,
   ],
   controllers: [],
   providers: [

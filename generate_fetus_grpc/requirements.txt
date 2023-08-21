@@ -1,61 +1,48 @@
-asyncio==3.4.3
-azure-core==1.29.1
-azure-identity==1.14.0
-azure-storage-blob==12.17.0
-black==23.3.0
-certifi==2023.7.22
-cffi==1.15.1
-charset-normalizer==3.2.0
-click==8.1.6
-cryptography==41.0.3
-grpcio==1.57.0
-grpcio-tools==1.57.0
-idna==3.4
-importlib-metadata==6.7.0
-isodate==0.6.1
-msal==1.23.0
-msal-extensions==1.0.0
-mypy-extensions==1.0.0
-numpy==1.21.6
-opencv-python==4.8.0.76
-packaging==23.1
-pathspec==0.11.2
-platformdirs==3.10.0
-portalocker==2.7.0
-protobuf==4.24.0
-pycparser==2.21
-PyJWT==2.8.0
-python-dotenv==0.21.1
-requests==2.31.0
-six==1.16.0
-tomli==2.0.1
-typed-ast==1.5.5
-typing_extensions==4.7.1
-urllib3==1.26.6
-zipp==3.15.0
-
-### docker환경에서 requirements.txt
+# asyncio==3.4.3
 # azure-core==1.29.1
 # azure-identity==1.14.0
 # azure-storage-blob==12.17.0
+# black==23.3.0
 # certifi==2023.7.22
 # cffi==1.15.1
 # charset-normalizer==3.2.0
+# click==8.1.6
 # cryptography==41.0.3
 # grpcio==1.57.0
 # grpcio-tools==1.57.0
 # idna==3.4
+# importlib-metadata==6.7.0
 # isodate==0.6.1
 # msal==1.23.0
 # msal-extensions==1.0.0
-# numpy==1.25.2
+# mypy-extensions==1.0.0
+# numpy==1.21.6
 # opencv-python==4.8.0.76
+# packaging==23.1
+# pathspec==0.11.2
+# platformdirs==3.10.0
 # portalocker==2.7.0
 # protobuf==4.24.0
 # pycparser==2.21
 # PyJWT==2.8.0
-# python-dotenv==1.0.0
+# python-dotenv==0.21.1
 # requests==2.31.0
 # six==1.16.0
+# tomli==2.0.1
+# typed-ast==1.5.5
 # typing_extensions==4.7.1
-# urllib3==2.0.4
+# urllib3==1.26.6
+# zipp==3.15.0
+
+### docker환경에서 requirements.txt
+azure-core==1.29.2
+azure-identity==1.14.0
+azure-storage-blob==12.17.0
+click==8.1.7
+grpcio-tools==1.57.0
+ninja==1.11.1
+numpy==1.25.2
+opencv-python==4.8.0.76
+Pillow==10.0.0
+python-dotenv==1.0.0
+scipy==1.11.2
