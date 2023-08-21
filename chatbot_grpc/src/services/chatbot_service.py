@@ -12,11 +12,11 @@ class ChatbotService(chatbot_pb2_grpc.ChatbotServiceServicer):
     def getFetusResponseFromChatbot(self, request, context):
         print("hi")
 
-        # input = request.input
-        # userId = request.userId
+        input = request.input
+        userId = request.userId
 
-        # createdAt = datetime.now().isoformat()
+        createdAt = datetime.now().isoformat()
 
-        # return GetFetusResponseFromChatbotOutboundPortOutputDto(
-        #     response="hi", createdAt=createdAt
-        # )
+        return GetFetusResponseFromChatbotOutboundPortOutputDto(
+            response="hi", createdAt=createdAt
+        )
