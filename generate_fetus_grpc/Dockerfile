@@ -18,7 +18,7 @@ RUN apt-get update && \
     apt-get -y install libgl1-mesa-glx && \
     apt-get install libglib2.0-0 -y && \
     pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116 && \
-    pip install opencv-python grpcio_tools numpy python-dotenv azure-storage-blob azure-identity scipy pillow ninja click
+    pip install -r requirements.txt
 
 FROM builder
 
