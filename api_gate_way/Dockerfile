@@ -6,8 +6,6 @@ WORKDIR /app
 
 COPY . .
 
-ENV NEST_PORT=3000
-
 RUN npm install --force && npm run build && npx nestia swagger
 
 
