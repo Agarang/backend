@@ -11,7 +11,7 @@ export const CHATBOT_GRPC_OPTION: ClientOptions = {
       process.env.NODE_ENV === 'development'
         ? '127.0.0.1'
         : 'chatbot_grpc_server'
-    }`,
+    }:${process.env.CHATBOT_GRPC_PORT}`,
     package: 'chatbot',
     protoPath: path.join(__dirname, '../../../../../proto/chatbot.proto'),
     loader: {
