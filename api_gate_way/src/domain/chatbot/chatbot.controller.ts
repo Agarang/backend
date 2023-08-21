@@ -15,6 +15,12 @@ import { SendChatToFetusInboundPortInputDto } from 'src/dtos/chatbot/send-chat.d
 export class ChatbotController {
   constructor(private readonly chatbotService: ChatbotService) {}
 
+  /**
+   *
+   * @tag chatbot
+   * @summary 아이에게 채팅 내용 전송
+   * @security bearer
+   */
   @UseGuards(JwtLocalGuard)
   @TypedRoute.Post('fetus')
   async sendChatToFetus(
