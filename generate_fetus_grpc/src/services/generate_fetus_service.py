@@ -32,12 +32,37 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
             os.environ.get("AZURE_BLOB_STORAGE_ACCOUNT_URL"),
             credential=os.environ.get("AZURE_STORAGE_SAS_KEY"),
         )
+        
+        self.dirname = os.path.dirname(__file__)
 
         # url = "https://agarang.blob.core.windows.net/agarang-blob-storage/profile-skt fly ai challenge.PNG-2023-08-10T13:42:03.427Z"
 
         # res = requests.get(url)
 
         self.container_name = os.environ.get("AZURE_BLOB_STORAGE_CONTAINER")
+
+        weight_container_name = os.environ.get("AZURE_WEIGHT_CONTAINER")
+
+        stylegan_blob_client = self.blob_storage.get_blob_client(
+            container=weight_container_name, blob="network-snapshot-000001.pkl"
+        )
+        
+        vgg_blob_client = self.blob_storage.get_blob_client(
+            container=weight_container_name, blob="vgg16.pt"
+        )
+                
+        download_file_path = os.path.join(
+            self.dirname, "../models/stylegan3/weights"
+        )
+        
+
+        with open(file=f"{download_file_path}/network-snapshot-000001.pkl", mode="wb") as f:
+            download_stream = stylegan_blob_client.download_blob()
+            f.write(download_stream.readall())
+
+        with open(file=f"{download_file_path}/vgg16.pt", mode="wb") as f:
+            download_stream = vgg_blob_client.download_blob()
+            f.write(download_stream.readall())
 
         print("Store Setting complete")
 
@@ -46,8 +71,6 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         print()
 
         print("Model Setting...")
-
-        self.dirname = os.path.dirname(__file__)
 
         print()
         print("Import weights...")
@@ -62,10 +85,6 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         self.c = None
 
         print("Model Setting Complete")
-
-        # self.model = Model()
-        # self.model.setup()
-        # self.dirname = os.path.dirname(__file__)
 
     async def generateFetusImage(self, request, context):
         url = request.url
