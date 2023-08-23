@@ -14,7 +14,7 @@ export const config: INestiaConfig = {
         url: `http://localhost:80`,
       },
       {
-        url: `http://localhost:${process.env.NEST_PORT}`,
+        url: `http://localhost:3000`,
         description: 'localhost',
       },
     ],
