@@ -28,41 +28,63 @@ import copy
 class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
     def __init__(self):
         print("Storage Setting...")
-        self.blob_storage = BlobServiceClient(
-            os.environ.get("AZURE_BLOB_STORAGE_ACCOUNT_URL"),
-            credential=os.environ.get("AZURE_STORAGE_SAS_KEY"),
-        )
-        
+
+        connect_str = os.environ.get("AZURE_STORAGE_CONNECTION_STRING")
+
+        self.blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+
+        # self.blob_storage = BlobServiceClient(
+        #     os.environ.get("AZURE_BLOB_STORAGE_ACCOUNT_URL"),
+        #     credential=os.environ.get("AZURE_STORAGE_SAS_KEY"),
+        # )
+
         self.dirname = os.path.dirname(__file__)
 
-        # url = "https://agarang.blob.core.windows.net/agarang-blob-storage/profile-skt fly ai challenge.PNG-2023-08-10T13:42:03.427Z"
-
-        # res = requests.get(url)
-
-        self.container_name = os.environ.get("AZURE_BLOB_STORAGE_CONTAINER")
+        self.image_container_name = os.environ.get("AZURE_BLOB_STORAGE_CONTAINER")
 
         weight_container_name = os.environ.get("AZURE_WEIGHT_CONTAINER")
 
-        stylegan_blob_client = self.blob_storage.get_blob_client(
-            container=weight_container_name, blob="network-snapshot-000001.pkl"
+        self.image_container_client = self.blob_service_client.get_container_client(
+            container=self.image_container_name
         )
-        
-        vgg_blob_client = self.blob_storage.get_blob_client(
-            container=weight_container_name, blob="vgg16.pt"
-        )
-                
-        download_file_path = os.path.join(
-            self.dirname, "../models/stylegan3/weights"
-        )
-        
 
-        with open(file=f"{download_file_path}/network-snapshot-000001.pkl", mode="wb") as f:
-            download_stream = stylegan_blob_client.download_blob()
-            f.write(download_stream.readall())
+        weight_container_client = self.blob_service_client.get_container_client(
+            container=weight_container_name
+        )
 
-        with open(file=f"{download_file_path}/vgg16.pt", mode="wb") as f:
-            download_stream = vgg_blob_client.download_blob()
-            f.write(download_stream.readall())
+        # stylegan_blob_client = self.blob_storage.get_blob_client(
+        #     container=weight_container_name, blob="network-snapshot-000001.pkl"
+        # )
+
+        # vgg_blob_client = self.blob_storage.get_blob_client(
+        #     container=weight_container_name, blob="vgg16.pt"
+        # )
+
+        download_file_path = os.path.join(self.dirname, "../models/stylegan3/weights")
+
+        print("Get Weights...")
+
+        with open(
+            file=f"{download_file_path}/network-snapshot-000001.pkl", mode="wb"
+        ) as f:
+            f.write(
+                weight_container_client.download_blob(
+                    "network-snapshot-000001.pkl"
+                ).readall()
+            )
+
+        with open(file=f"{download_file_path}/vgg16.pt ", mode="wb") as f:
+            f.write(weight_container_client.download_blob("vgg16.pt").readall())
+
+        # with open(
+        #     file=f"{download_file_path}/network-snapshot-000001.pkl", mode="wb"
+        # ) as f:
+        #     download_stream = stylegan_blob_client.download_blob()
+        #     f.write(download_stream.readall())
+
+        # with open(file=f"{download_file_path}/vgg16.pt", mode="wb") as f:
+        #     download_stream = vgg_blob_client.download_blob()
+        #     f.write(download_stream.readall())
 
         print("Store Setting complete")
 
@@ -75,10 +97,7 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         print()
         print("Import weights...")
         with open(
-            os.path.join(
-                self.dirname, "../models/stylegan3/weights/network-snapshot-000001.pkl"
-            ),
-            "rb",
+            file=f"{download_file_path}/network-snapshot-000001.pkl", mode="rb"
         ) as f:
             self.G = pickle.load(f)["G"].cuda()
 
@@ -91,23 +110,23 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         filename = request.filename
         ext = request.ext
 
-        blob_client = self.blob_storage.get_blob_client(
-            container=self.container_name,
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.image_container_name,
             blob=f"generated-fetus-{parse.quote(filename)}-{datetime.now().isoformat()}.{ext}",
         )
-
+        
         res = requests.get(url)
 
         img = res.content
 
-        print(type(img))
+        # print(type(img))
 
         print("Preprocessing...")
 
         # z = torch.randn([1, self.G.z_dim]).cuda()
         z = self.preprocessing(img).cuda()
 
-        print(z.shape)
+        # print(z.shape)
 
         print("Generating...")
 
@@ -120,7 +139,7 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
 
         print("Generation Complete")
 
-        print(img.shape)
+        # print(img.shape)
 
         # 차원 재배치
         img = img.permute(0, 2, 3, 1)
@@ -130,7 +149,7 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         # 차원을 3차원으로 축소
         img = img.squeeze(0)
 
-        print(f"squeeze : {img.shape}")
+        # print(f"squeeze : {img.shape}")
 
         # Tensor to numpy array
         img = img.cpu().numpy()
@@ -141,17 +160,17 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         # convert type to uint8
         img = img.astype(np.uint8)
 
-        print(img)
+        # print(img)
 
-        print(f"tonumpy : {type(img)}")
+        # print(f"tonumpy : {type(img)}")
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
         # encode to jpg, png, ... etc.
         img = cv2.imencode(f".{ext}", img)[1].tobytes()
 
-        print(f"encode : {type(img)}")
+        # print(f"encode : {type(img)}")
 
-        print(f"final : {type(img)}")
+        # print(f"final : {type(img)}")
 
         # 생성된 이미지를 Azure blob storage에 저장
         blob_client.upload_blob(img)
