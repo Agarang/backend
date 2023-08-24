@@ -151,3 +151,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# weight file. pt, pkl
+network-snapshot-000001.pkl
+vgg16.pt
