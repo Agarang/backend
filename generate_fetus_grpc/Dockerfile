@@ -4,7 +4,7 @@ FROM nvidia/cuda:11.6.2-cudnn8-devel-ubuntu20.04 as builder
 
 WORKDIR /app
 
-COPY . .
+COPY requirements.txt ./requirements.txt
 
 RUN apt-get update && \
     ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
@@ -27,7 +27,3 @@ WORKDIR /app
 ENV PYTHONPATH=.
 
 COPY . .
-
-RUN python3 -m venv venv && \
-    . ./venv/bin/activate
-
