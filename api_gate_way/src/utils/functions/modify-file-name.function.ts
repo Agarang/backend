@@ -1,9 +1,7 @@
-import { UploadedFileMetadata } from '@nestjs/azure-storage';
-
 export function modifyFileName(
-  file: UploadedFileMetadata,
+  file: Express.Multer.File,
   modifiedFileName: string,
-): UploadedFileMetadata {
+): Express.Multer.File {
   const { originalname, ...fileInfo } = file;
 
   const splitedFileNameArray = originalname.split('.');

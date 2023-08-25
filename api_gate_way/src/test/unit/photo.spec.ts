@@ -5,10 +5,10 @@ import { MockPhotoRepository } from './mock/photo.repository.mock';
 import { MockAzureStorage } from './mock/azure.storage.mock';
 import { UploadPhotoOutboundPortOutputDto } from 'src/dtos/photo/upload-profile-photo.dto';
 import { PhotoController } from 'src/domain/photo/photo.controller';
-import { UploadedFileMetadata } from '@nestjs/azure-storage';
 import { MockGenerateFetusGRPC } from './mock/generate-fetus.grpc.mock';
 import { MockUserRepository } from './mock/user.repository.mock';
 import { FindUserInfoOutboundPortOutputDto } from 'src/dtos/user/find-user-info.dto';
+import { Readable } from 'stream';
 
 describe('Photo Spec', () => {
   let user: LocalToken;
@@ -20,7 +20,7 @@ describe('Photo Spec', () => {
   describe('1. Upload Profile', () => {
     it('1-1. Upload Profile Normally', async () => {
       const url = typia.random<UploadPhotoOutboundPortOutputDto>();
-      const profile = typia.random<UploadedFileMetadata>();
+      const profile = typia.random<Express.Multer.File>();
       const updatedUserInfo = typia.random<FindUserInfoOutboundPortOutputDto>();
 
       const photoService = new PhotoService(
@@ -41,6 +41,7 @@ describe('Photo Spec', () => {
           ...profile,
           originalname: 'temp.png',
           buffer: Buffer.alloc(1),
+          stream: new Readable(),
         },
         user,
       );
@@ -51,7 +52,7 @@ describe('Photo Spec', () => {
 
   describe('2. Generate Fetus Image', () => {
     it('2-1. Generate Fetus Image Normally', async () => {
-      const fetus = typia.random<UploadedFileMetadata>();
+      const fetus = typia.random<Express.Multer.File>();
       const url = typia.random<UploadPhotoOutboundPortOutputDto>();
 
       const photoService = new PhotoService(
@@ -72,6 +73,7 @@ describe('Photo Spec', () => {
           ...fetus,
           originalname: 'temp.png',
           buffer: Buffer.alloc(1),
+          stream: new Readable(),
         },
         user,
       );

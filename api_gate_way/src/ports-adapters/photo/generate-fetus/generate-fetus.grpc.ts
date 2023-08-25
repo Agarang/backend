@@ -33,12 +33,9 @@ export class GenerateFetusGRPC
         ...params,
       });
 
-      const a = await lastValueFrom(res);
+      const result = await lastValueFrom(res);
 
-      console.log('aaaaaaaaaaaa');
-      console.log(a);
-
-      return a;
+      return result;
     } catch (err) {
       console.log(err);
       throw new RpcException('RPC 통신 오류');

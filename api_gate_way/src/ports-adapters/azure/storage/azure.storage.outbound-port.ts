@@ -1,4 +1,3 @@
-import { UploadedFileMetadata } from '@nestjs/azure-storage';
 import { UploadPhotoOutboundPortOutputDto } from 'src/dtos/photo/upload-profile-photo.dto';
 
 export const AZURE_STORAGE_OUTBOUND_PORT =
@@ -6,6 +5,6 @@ export const AZURE_STORAGE_OUTBOUND_PORT =
 
 export interface AzureStorageOutboundPort {
   uploadPhoto(
-    modifiedProfile: UploadedFileMetadata,
+    modifiedProfile: Express.Multer.File,
   ): Promise<UploadPhotoOutboundPortOutputDto>;
 }

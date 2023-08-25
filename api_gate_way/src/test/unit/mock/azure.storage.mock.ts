@@ -1,4 +1,3 @@
-import { UploadedFileMetadata } from '@nestjs/azure-storage';
 import { UploadPhotoOutboundPortOutputDto } from 'src/dtos/photo/upload-profile-photo.dto';
 import { AzureStorageOutboundPort } from 'src/ports-adapters/azure/storage/azure.storage.outbound-port';
 import { MockParamTypeForTest } from 'src/utils/types/mock-param-type-for-test.type';
@@ -13,7 +12,7 @@ export class MockAzureStorage implements AzureStorageOutboundPort {
   }
 
   async uploadPhoto(
-    modifiedProfile: UploadedFileMetadata,
+    modifiedProfile: Express.Multer.File,
   ): Promise<UploadPhotoOutboundPortOutputDto> {
     const res = this.result.uploadPhoto?.pop();
     if (res === undefined) {

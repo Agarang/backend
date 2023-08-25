@@ -7,7 +7,6 @@ import {
 import { PhotoService } from './photo.service';
 import { TypedRoute } from '@nestia/core';
 import { JwtLocalGuard } from 'src/auth/guards/jwt-local.guard';
-import { UploadedFileMetadata } from '@nestjs/azure-storage';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ResponseForm,
@@ -45,7 +44,7 @@ export class PhotoController {
   @UseInterceptors(FileInterceptor('fetus'))
   @TypedRoute.Post('fetus')
   async createFetusPhoto(
-    @UploadedFile() fetus: UploadedFileMetadata,
+    @UploadedFile() fetus: Express.Multer.File,
     @User() user: LocalToken,
   ): Promise<ResponseForm<UploadPhotoOutboundPortOutputDto>> {
     const storageUrl = await this.photoService.generateFetusPhoto(
@@ -79,7 +78,7 @@ export class PhotoController {
   @UseInterceptors(FileInterceptor('profile'))
   @TypedRoute.Put('profile')
   async uploadProfilePhoto(
-    @UploadedFile() profile: UploadedFileMetadata,
+    @UploadedFile() profile: Express.Multer.File,
     @User() user: LocalToken,
   ): Promise<ResponseForm<UploadPhotoOutboundPortOutputDto>> {
     const storageUrl = await this.photoService.uploadProfilePhoto(
