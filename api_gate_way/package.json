@@ -22,9 +22,10 @@
     "prepare": "ts-patch install"
   },
   "dependencies": {
+    "@azure/identity": "^3.3.0",
+    "@azure/storage-blob": "^12.15.0",
     "@grpc/grpc-js": "^1.9.0",
     "@nestia/core": "^1.4.4",
-    "@nestjs/azure-storage": "^3.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.2",
     "@nestjs/core": "^9.0.0",
@@ -56,6 +57,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "28.1.8",
+    "@types/multer": "^1.4.7",
     "@types/node": "^16.0.0",
     "@types/passport": "^1.0.12",
     "@types/passport-jwt": "^3.0.9",
