@@ -1,4 +1,3 @@
-import { UploadedFileMetadata } from '@nestjs/azure-storage';
 import { Inject, Injectable } from '@nestjs/common';
 import { UploadPhotoOutboundPortOutputDto } from 'src/dtos/photo/upload-profile-photo.dto';
 import {
@@ -36,7 +35,7 @@ export class PhotoService {
   ) {}
 
   async generateFetusPhoto(
-    fetus: UploadedFileMetadata,
+    fetus: Express.Multer.File,
     userId: number,
   ): Promise<UploadPhotoOutboundPortOutputDto> {
     // 1. Azure blob storage에 입체 초음파 사진 저장
@@ -72,7 +71,7 @@ export class PhotoService {
   }
 
   async uploadProfilePhoto(
-    profile: UploadedFileMetadata,
+    profile: Express.Multer.File,
     userId: number,
   ): Promise<UploadPhotoOutboundPortOutputDto> {
     const modifiedProfile = modifyFileName(profile, 'profile');
