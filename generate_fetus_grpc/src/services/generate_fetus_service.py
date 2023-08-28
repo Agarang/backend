@@ -238,7 +238,7 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         G,
         target: torch.Tensor,  # [C,H,W] and dynamic range [0,255], W & H must match G output resolution
         *,
-        num_steps=100,
+        num_steps=1000,
         w_avg_samples=1000,
         initial_learning_rate=0.1,
         initial_noise_factor=0.05,
