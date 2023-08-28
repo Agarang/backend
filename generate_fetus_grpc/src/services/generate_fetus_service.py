@@ -73,7 +73,7 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
                 ).readall()
             )
 
-        with open(file=f"{download_file_path}/vgg16.pt ", mode="wb") as f:
+        with open(file=f"{download_file_path}/vgg16.pt", mode="wb") as f:
             f.write(weight_container_client.download_blob("vgg16.pt").readall())
 
         # with open(
