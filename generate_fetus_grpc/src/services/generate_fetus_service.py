@@ -114,7 +114,7 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
             container=self.image_container_name,
             blob=f"generated-fetus-{parse.quote(filename)}-{datetime.now().isoformat()}.{ext}",
         )
-        
+
         res = requests.get(url)
 
         img = res.content
@@ -141,24 +141,27 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
 
         # print(img.shape)
 
+        # Denormalization
+        img = (img + 1) * (255 / 2)
+
         # 차원 재배치
-        img = img.permute(0, 2, 3, 1)
+        img = img.permute(0, 2, 3, 1).clamp(0, 255).to(torch.uint8)[0].cpu().numpy()
 
         print(f"after pernute : {img.shape}")
 
         # 차원을 3차원으로 축소
-        img = img.squeeze(0)
+        # img = img.squeeze(0)
 
         # print(f"squeeze : {img.shape}")
 
         # Tensor to numpy array
-        img = img.cpu().numpy()
+        # img = img.cpu().numpy()
 
         # Denormalization
-        img = (img + 1) * (255 / 2)
+        # img = (img + 1) * (255 / 2)
 
         # convert type to uint8
-        img = img.astype(np.uint8)
+        # img = img.astype(np.uint8)
 
         # print(img)
 
@@ -226,10 +229,10 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         )
 
         projected_w = projected_w_steps[-1]
-        z = projected_w[-1]
+        z = projected_w
 
         tensorz = torch.Tensor(z)
-        tensorz_with_batch = tensorz.unsqueeze(0)
+        tensorz_with_batch = tensorz
 
         return tensorz_with_batch
 
@@ -238,8 +241,8 @@ class GenerateFetusService(generate_fetus_pb2_grpc.GenerateFetusService):
         G,
         target: torch.Tensor,  # [C,H,W] and dynamic range [0,255], W & H must match G output resolution
         *,
-        num_steps=1000,
-        w_avg_samples=1000,
+        num_steps=100,
+        w_avg_samples=2,
         initial_learning_rate=0.1,
         initial_noise_factor=0.05,
         lr_rampdown_length=0.25,
