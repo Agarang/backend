@@ -96,4 +96,4 @@ jobs:
       - name: Docker run
         if: success() || steps.rm-docker-images.outcome == 'failure'
         run: |
-          docker compose up
+          docker compose up -d
