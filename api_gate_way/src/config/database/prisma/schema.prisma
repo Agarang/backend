@@ -7,21 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model User {
   id              Int       @id @default(autoincrement())
   email           String    @unique(map: "User_email_key")
   password        String
   nickname        String    @unique(map: "User_nickname_key")
   name            String
-  birthday        DateTime
+  birthday        DateTime 
   phoneNumber     String
   babyDue         DateTime
   pregnancyDay    DateTime?
-  fetusNickname   String?
+  fetusNickname   String @default("아기")
   height          Int?
   weight          Int?
-  profilePhotoUrl String?
-  createdAt       DateTime? @default(now())
-  updatedAt       DateTime?
+  profilePhotoUrl String? @db.VarChar(521)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
   deletedAt       DateTime?
+
+  profilePhotoList ProfilePhoto[]
+  photoAboutGenerationList PhotoAboutGeneration[]
+}
+
+model ProfilePhoto {
+  id Int @id @default(autoincrement())
+  url String @db.VarChar(521) @unique()
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  userId Int
+
+  User User @relation(fields: [userId], references: [id])
+}
+
+model PhotoAboutGeneration {
+  id Int @id @default(autoincrement())
+  url String @db.VarChar(521) @unique()
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  userId Int
+
+  User User @relation(fields: [userId], references: [id])
 }

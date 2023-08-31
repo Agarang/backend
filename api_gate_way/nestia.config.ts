@@ -5,12 +5,19 @@ dotenv.config();
 export const config: INestiaConfig = {
   input: 'src/**/*.controller.ts',
   output: 'src/api',
+  distribute: 'packages',
 
   swagger: {
     output: 'swagger.json',
     servers: [
       {
-        url: `http://localhost:${process.env.NEST_PORT}`,
+        url: `http://skflyaiproject.store`,
+      },
+      {
+        url: `http://localhost:80`,
+      },
+      {
+        url: `http://localhost:3000`,
         description: 'localhost',
       },
     ],
