@@ -55,24 +55,90 @@
 </br>
 </br>
 
-## Application
+<div align="center">
 
+## 팀원 소개
+<table style="border-collapse: collapse; cellspacing: 0; cellpadding: 0;">
+  <tr>
+    <td align="center">
+      <b>AI Developer</b>
+    </td>
+    <td align="center">
+      <b>AI Developer</b>
+    </td>
+    <td align="center">
+      <b>AI Developer</b>
+    </td>
+    <td align="center">
+      <b>FrontEnd Developer</b>
+    </td>
+    <td align="center">
+      <b>BackEnd Developer</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="padding: 10px;">
+      <a href="https://github.com/johanik">
+        <img src="https://github.com/Agarang/.github/assets/27190776/108aeccf-5e6b-4875-aeb6-a6855fb68560" width="120px;" alt="teammember1" /><br />
+        <h4><b><a href="https://github.com/johanik">조한익(팀장)</b></h4>
+      </a>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <a href="https://github.com/harikang">
+        <img src="https://github.com/Agarang/.github/assets/27190776/a2035a82-5325-490a-8eeb-8b369dbd9364" width="120px;" alt="teammember2" /><br />
+        <h4><b><a href="https://github.com/harikang">강하리</b></h4>
+      </a>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <a href="https://github.com/YUL-git">
+        <img src="https://github.com/Agarang/.github/assets/27190776/631bd09e-b15b-428c-ada2-8061d89664b3" width="120px;" alt="teammember3" /><br />
+        <h4><b><a href="https://github.com/YUL-git">함지율</b></h4>
+      </a>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <a href="https://github.com/yunhee1">
+        <img src="https://github.com/Agarang/.github/assets/27190776/08066de3-d567-4f8d-bc89-521028def2f9" width="120px;" alt="teammember4" /><br />
+        <h4><b><a href="https://github.com/yunhee1">황윤희</b></h4>
+      </a>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <a href="https://github.com/8471919">
+        <img src="https://github.com/Agarang/.github/assets/27190776/f74be216-230c-450a-b219-a5a0f89caa30" width="120px;" alt="teammember5" /><br />
+        <h4><b><a href="https://github.com/8471919">정한수</b></h4>
+      </a>
+    </td>
+  </tr>
+</table>
+</div>
 
-### 아기 얼굴 사진 생성 서비스
+</br>
+</br>
+</br>
 
 <div align="center">
+
+## Application
+</br>
+
+### 아기 얼굴 사진 생성 서비스
+</br>
 태아의 3D 초음파 사진을 입력하여 아기의 얼굴 사진을 생성해주는 서비스
 
 https://github.com/Agarang/.github/assets/27190776/c410eedc-2909-41b7-aad4-9e73ea52858f
 </div>
+</br>
+<div align="center">
 
 ### 챗봇
-
-<div align="center">
+</br>
 AI 챗봇을 통해 산모에게 필요한 정보를 제공하고, 아이처럼 대화할 수 있는 서비스
 
 https://github.com/Agarang/.github/assets/27190776/881f0e64-d610-4898-8eb2-2dac356fbfbe
 </div>
+
+
+
+
 
 </br>
 </br>
