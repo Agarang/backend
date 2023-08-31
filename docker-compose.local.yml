@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  generate_fetus_grpc_server:
+    build:
+      context: ./generate_fetus_grpc
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities:
+                - gpu
+    expose:
+      - ${GENERATE_FETUS_GRPC_PORT}
+    env_file:
+      - ./.env.generate_fetus_grpc
+    container_name: generate_fetus_grpc_server
+    command: python3 src/main.py
+
+  chatbot_grpc_server:
+    build:
+      context: ./chatbot_grpc
+      dockerfile: Dockerfile
+    expose:
+      - ${CHATBOT_GRPC_PORT}
+    env_file:
+      - ./.env.chatbot_grpc
+    container_name: chatbot_grpc_server
+    command: python3 src/main.py
+
+  api_gate_way_server:
+    build:
+      context: ./api_gate_way
+      dockerfile: Dockerfile
+    expose:
+      - ${NEST_PORT}
+    env_file:
+      - ./.env.api_gate_way
+    depends_on:
+      - generate_fetus_grpc_server
+      - chatbot_grpc_server
+      - nginx_server
+    container_name: api_gate_way_server
+    command: npm run start:prod
+
+  nginx_server:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    environment:
+      - NEST_PORT=${NEST_PORT}
+    container_name: nginx_server
+    restart: unless-stopped
+    command: nginx -g 'daemon off;'

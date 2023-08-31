@@ -1,3 +1,5 @@
+import { TypeToSelect } from 'src/utils/types/type-to-select.type';
+
 export interface UserEntity {
   /**
    * @type int
@@ -10,70 +12,63 @@ export interface UserEntity {
   email: string;
 
   /**
-   * @pattern ^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,30}$
    * 비밀번호는 10자 이상 30자 이하, 영문+숫자+특수문자의 조합
    */
   password: string;
 
   /**
-   * [a-zA-Zㄱ-힣]{3,}
-   * 넥네임은 3글자 이상
+   * @pattern [a-zA-Zㄱ-힣]{3,10}
    */
   nickname: string;
 
   /**
-   * [a-zA-Zㄱ-힣]{1,}
-   * 이름은 1글자 이상
+   * @pattern [a-zA-Zㄱ-힣]{1,}
    */
   name: string;
 
   /**
-   * @format date
+   * @format date-time
    */
   birthday: string;
 
   /**
-   * @format (010|011)-(\d{3,4})-(\d{4})
-   * 핸드폰 번호는 (010 또는 011) - (3~4글자) - (4글자)
+   * @pattern (010|011)-(\d{3,4})-(\d{4})
    */
   phoneNumber: string;
 
   /**
-   * @format date
-   * 출산 예정일
+   * @format date-time
    */
   babyDue: string;
 
   /**
-   * @format date
-   * 임신일
+   * @format date-time
    */
-  pregnancyDay: string;
+  pregnancyDay: string | null;
 
   /**
-   * [a-zA-Zㄱ-힣]{1,}
-   * 태명은 1글자 이상
+   * @pattern [a-zA-Zㄱ-힣]{1,}
    */
   fetusNickname: string;
 
-  height: number;
+  height: number | null;
 
-  weight: number;
+  weight: number | null;
 
-  prfilePhotoUrl: string;
+  profilePhotoUrl: string | null;
 
   /**
-   * @format date
+   * @format date-time
    */
   createdAt: string | null;
 
   /**
-   * @format date
+   * @format date-time
    */
   updatedAt: string | null;
 
   /**
-   * @format date
+   * @format date-time
    */
   deletedAt: string | null;
 }

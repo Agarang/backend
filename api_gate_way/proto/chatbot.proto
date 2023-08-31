@@ -1,0 +1,17 @@
+syntax = 'proto3';
+
+package chatbot;
+
+message GetFetusResponseFromChatbotOutboundPortInputDto {
+    string input = 1;
+    uint32 userId = 2;
+}
+
+message GetFetusResponseFromChatbotOutboundPortOutputDto {
+    string response = 1;
+    string createdAt = 2;
+}
+
+service ChatbotService {
+    rpc getFetusResponseFromChatbot (GetFetusResponseFromChatbotOutboundPortInputDto) returns (GetFetusResponseFromChatbotOutboundPortOutputDto);
+} 

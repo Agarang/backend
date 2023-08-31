@@ -1,0 +1,99 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - temp
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: API GATEWAY Build And Push1
+        uses: docker/build-push-action@v3
+        with:
+          context: ./api_gate_way
+          file: ./api_gate_way/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api_gate_way
+
+      - name: CHATBOT GRPC Build And Push2
+        uses: docker/build-push-action@v3
+        with:
+          context: ./chatbot_grpc
+          file: ./chatbot_grpc/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/chatbot_grpc
+
+      - name: GENERATE FETUS GRPC Build And Push3
+        uses: docker/build-push-action@v3
+        with:
+          context: ./generate_fetus_grpc
+          file: ./generate_fetus_grpc/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/generate_fetus_grpc
+
+      - name: NGINX Build And Push4
+        uses: docker/build-push-action@v3
+        with:
+          context: ./nginx
+          file: ./nginx/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nginx
+
+  deploy:
+    needs: build
+    runs-on: [self-hosted, label-go]
+    steps:
+      - name: Login to ghcr
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Remove Origin .env File
+        id: rm-env-file
+        run: |
+          sudo rm ~/.env
+
+      - name: Generate new .env File
+        if: success() || steps.rm-env-file.outcome =='failure'
+        run: |
+          echo "$ENV_FILE" >> ~/.env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+
+      - name: Remove Origin Container
+        if: success() || failure()
+        id: rm-docker-images
+        run: |
+          docker compose down
+
+          docker rmi $(docker images -q)
+
+      - name: Docker run
+        if: success() || steps.rm-docker-images.outcome == 'failure'
+        run: |
+          docker compose up -d
